@@ -7,6 +7,8 @@ import pymysql
 import cgi
 import cgitb
 cgitb.enable()
+
+# Methods
 def insert_model():
     connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user = "ahamel19",passwd = "Sparticus6")
     cursor = connection.cursor()
@@ -26,6 +28,7 @@ def insert_reactions():
     query = query[0:-2]
     query += ";"
     print(query)
+
 def insert_metabolites():
     connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user = "ahamel19",passwd = "Sparticus6")
     cursor = connection.cursor()
@@ -35,8 +38,7 @@ def insert_metabolites():
     query = query[0:-2]
     query += ";"
     print(query)
-    
-       
+ 
 def check(ID, DB):
     if ID in DB["NAME"]:
         return False
@@ -47,6 +49,7 @@ def loadingAgora(directory):
     # get all the model files in the agora folder, hold in a list
     model_files = os.listdir(directory)[0:3]
     return model_files
+
 def getReactions(reaction, model, current_reaction_id, REACTIONS, MOD_REACT):
     name = reaction.id
     str_name = reaction.name
@@ -57,6 +60,7 @@ def getReactions(reaction, model, current_reaction_id, REACTIONS, MOD_REACT):
     REACTIONS = REACTIONS.append({"RID": current_reaction_id ,"NAME": name, "Str_NAME": str_name, "ec-code": ec}, ignore_index=True)
     MOD_REACT = MOD_REACT.append( { "MOD_NAME": model, "REACT_NAME": name }, ignore_index=True)
     return REACTIONS, MOD_REACT
+
 def getMetabolites(met, METABOLITES): 
     name = str(met.id).split('__91__')[0]
     str_name = met.name
@@ -65,13 +69,16 @@ def getMetabolites(met, METABOLITES):
         METABOLITES = METABOLITES.append({"NAME": name,"Str_NAME": str_name,"COMPARTMENT": compartment}, 
                                          ignore_index=True)
     return METABOLITES
+
 def getStoich(met, reaction, coeff, STOICH):
     rid = reaction.id
     metid = str(met.id).split('__91__')[0]
     value = coeff
     STOICH = STOICH.append({"REACTIONSID": rid,"METABOLITESID": metid,"VALUE": coeff}, ignore_index=True)
     return STOICH
-# import modules 
+
+# Main script
+# import modules
 MODELS = pandas.DataFrame(columns = ["MID","NAME"])
 MOD_REACT = pandas.DataFrame(columns = ["MOD_NAME","REACT_NAME"])
 REACTIONS = pandas.DataFrame(columns = ["RID","NAME","ec-code"])
@@ -95,7 +102,6 @@ for i in model_files:
             if check(j.id, REACTIONS):
                 current_reaction_id += 1
                 REACTIONS, MOD_REACT = getReactions(j, model.id, current_reaction_id,REACTIONS, MOD_REACT)
-                
                 # get metabolites and coefficients
                 for met,coeff in j.metabolites.items():
                     if check(str(met.id).split('__91__')[0], METABOLITES ):
