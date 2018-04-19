@@ -1,4 +1,3 @@
-# returnt true if dosnt already exist
 import os
 import os.path
 import cobra
@@ -10,7 +9,7 @@ cgitb.enable()
 
 # Methods
 def insert_model():
-    connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user = ,passwd = )
+    connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user ='rodigerj' ,passwd = 'amory1')
     cursor = connection.cursor()
     query = "INSERT INTO MODEL (NAME) VALUES("
     for i in MODELS["NAME"]:
@@ -21,7 +20,7 @@ def insert_model():
     connection.commit()
     
 def insert_reactions():
-    connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user = ,passwd = )
+    connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user ='rodigerj' ,passwd = 'amory1')
     cursor = connection.cursor()
     query = "INSERT INTO REACTIONS (NAME, EC) VALUES("
     for index, row in REACTIONS.iterrows():
@@ -32,7 +31,7 @@ def insert_reactions():
     connection.commit()
 
 def insert_metabolites():
-    connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user = ,passwd = )
+    connection = pymysql.connect(host="bioed.bu.edu",db = "groupB",user = 'rodigerj',passwd = 'amory1')
     cursor = connection.cursor()
     query = "INSERT INTO METABOLITES (NAME, STRING_NAME) VALUES("
     for index, row in METABOLITES.iterrows():
@@ -41,7 +40,7 @@ def insert_metabolites():
     query += ";"
     cursor.execute(query)
     connection.commit()
- 
+
 def inTable(ID, DB):
     if ID in DB["NAME"]:
         return False
@@ -49,12 +48,13 @@ def inTable(ID, DB):
         return True
 
 def inStoich(metID, rxnID, VALUE, STOICH):
-    return ((STOICH['REACTIONSID'] == metID) & (STOICH['METABOLITESID'] == rxnID) & (STOICH['VALUE'] == VALUE)).any()
+    b = ((STOICH["METABOLITESID"] == metID) & (STOICH["REACTIONSID"] == rxnID) & (STOICH["VALUE"] == VALUE)).all()
+    return False
 
     
 def loadingAgora(directory):
     # get all the model files in the agora folder, hold in a list
-    model_files = os.listdir(directory)[0:3]
+    model_files = os.listdir(directory)[0:2]
     return model_files
 
 def addToReactions(reaction, model, current_reaction_id, REACTIONS, MOD_REACT):
@@ -77,10 +77,7 @@ def addToMetabolites(id, met, METABOLITES):
                                          ignore_index=True)
     return METABOLITES
 
-def addToStoich(met, reaction, coeff, STOICH):
-    rid = reaction.id
-    metid = str(met.id).split('__91__')[0]
-    value = coeff
+def addToStoich(metid, rid, coeff, STOICH):
     STOICH = STOICH.append({"REACTIONSID": rid,"METABOLITESID": metid,"VALUE": coeff}, ignore_index=True)
     return STOICH
 
@@ -94,11 +91,13 @@ STOICH = pandas.DataFrame(columns = ["REACTIONSID","METABOLITESID","VALUE"])
 # connect to the database 
 #cursor = connect()
 # read each model in the Agora file 
-model_files = loadingAgora("/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/")
-current_model_id, current_reaction_id, current_metabolite_id = 0
+model_files = loadingAgora("C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\")
+current_model_id = 0
+current_reaction_id = 0
+current_metabolite_id = 0
 # read each model and get the ID
 for i in model_files:
-    model = cobra.io.read_sbml_model('/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/%s'%i) #read model
+    model = cobra.io.read_sbml_model('C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\%s'%i) #read model
     print(model)
     # check if model is already in the table. if not, add to the table 
     if inTable(model.id, MODELS):
@@ -111,11 +110,12 @@ for i in model_files:
                 REACTIONS, MOD_REACT = addToReactions(j, model.id, current_reaction_id,REACTIONS, MOD_REACT)
                 # get metabolites and coefficients
                 for met,coeff in j.metabolites.items():                
-                    if inStoich(current_metabolite_id, current_reaction_id, coeff, STOICH):
+                    metID = METABOLITES['METABOLITESID'].where(METABOLITES['NAME'] == str(met.id).split('__91__')[0])
+                    if inStoich(metID, current_reaction_id, coeff, STOICH):
                         break
-                    else if inTable(str(met.id).split('__91__')[0], METABOLITES):
+                    elif inTable(str(met.id).split('__91__')[0], METABOLITES):
                         # Add to STOICH
-                        STOICH = addToStoich(current_reaction_id, METABOLITES['METABOLITESID'].where(METABOLITES['NAME'] == str(met.id).split('__91__')[0]), coeff, STOICH)
+                        STOICH = addToStoich(current_reaction_id, metID, coeff, STOICH)
                     else:
                         current_metabolite_id += 1
                         # Add to METABOLITES and STOICH
@@ -123,8 +123,8 @@ for i in model_files:
                         STOICH = addToStoich(current_reaction_id, current_metabolite_id, coeff, STOICH)
     else:
         break
-print(MODELS)
-print(REACTIONS)
-print(METABOLITES)
-print(MOD_REACT)
+#print(MODELS)
+#print(REACTIONS)
+#print(METABOLITES)
+#print(MOD_REACT)
 print(STOICH)
