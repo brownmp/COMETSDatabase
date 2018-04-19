@@ -65,7 +65,7 @@ def submit_MODEL(model,media):
 
 def execute_query(query):
 	# connect to the database
-	connection = pymysql.connect(host="bioed.bu.edu",db="groupB",user="ahamel19",passwd="Sparticus6")
+	connection = pymysql.connect(host="",db="",user="",passwd="")
 
 	# get cursor
 	cursor = connection.cursor()
