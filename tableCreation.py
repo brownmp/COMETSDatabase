@@ -14,8 +14,6 @@ cursor = connection.cursor()
 
 # Methods
 def insert_model():
-    connection = pymysql.connect()
-    cursor = connection.cursor()
     query = "INSERT INTO MODEL (NAME) VALUES("
     for i in MODELS["NAME"]:
         query += '"' + i + '"'+"),("
@@ -25,8 +23,6 @@ def insert_model():
     connection.commit()
     
 def insert_reactions():
-    connection = pymysql.connect()
-    cursor = connection.cursor()
     query = "INSERT INTO REACTIONS (NAME, EC) VALUES("
     for index, row in REACTIONS.iterrows():
         query += '"' + row["NAME"] + '"'+"," + '"' + row["ec-code"] + '"'+"),("
@@ -36,20 +32,15 @@ def insert_reactions():
     connection.commit()
 
 def insert_metabolites():
-    connection = pymysql.connect()
-    cursor = connection.cursor()
     query = "INSERT INTO METABOLITES (NAME, STRING_NAME, COMPARTMENT, KEGG, PUBCHEM, INCHI) VALUES("
     for index, row in METABOLITES.iterrows():
-        query += '"' + row["NAME"] + '"' + "," + '"' + row["Str_NAME"] + '"' + "," + '"' + row["COMPARTMENT"] 
-        + '"' + "," + '"' + row["KEGG"] + '"' + "," + '"' + row["PUBCHEM"] + '"' + "," + '"' + row["INCHI"] + '"' + "),("
+        query += '"' + row["NAME"] + '"' + "," + '"' + row["Str_NAME"] + '"' + "," + '"' + row["COMPARTMENT"] + '"' + "," + '"' + row["KEGG"] + '"' + "," + '"' + row["PUBCHEM"] + '"' + "," + '"' + row["INCHI"] + '"' + "),("
     query = query[0:-2]
     query += ";"
     cursor.execute(query)
     connection.commit()
 
 def insert_stoich():
-    connection = pymysql.connect()
-    cursor = connection.cursor()
     query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, VALUE) VALUES("
     for index, row in METABOLITES.iterrows():
         query += '"' + row["REACTIONSID"] + '"' + "," + '"' + row["METABOLITESID"] + '"' + "," + '"' + row["VALUE"] + '"'+"),("
@@ -59,8 +50,6 @@ def insert_stoich():
     connection.commit()
 
 def insert_mod_react():
-    connection = pymysql.connect()
-    cursor = connection.cursor()
     query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, VALUE) VALUES("
     for index, row in METABOLITES.iterrows():
         query += '"' + row["MID"] + '"' + "," + '"' + row["RID"] + '"' + "),("
@@ -103,8 +92,7 @@ def addToMetabolites(metid, met, model, METABOLITES):
     except KeyError:
         inchi = 'NA'
     
-    if notInTable(name,METABOLITES):
-        METABOLITES = METABOLITES.append({"METABOLITESID":metid, "NAME": name,"Str_NAME": str_name,"COMPARTMENT": compartment, "KEGG": kegg, "PUBCHEM": pubchem, "INCHI": inchi}, 
+    METABOLITES = METABOLITES.append({"METABOLITESID":metid, "NAME": name,"Str_NAME": str_name,"COMPARTMENT": compartment, "KEGG": kegg, "PUBCHEM": pubchem, "INCHI": inchi}, 
                                          ignore_index=True)
     return METABOLITES
 
@@ -136,7 +124,7 @@ stoichDict = {}
 # connect to the database 
 #cursor = connect()
 # read each model in the Agora file 
-model_files = loadingAgora("C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\")
+model_files = loadingAgora("/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/")
 
 # Initialize ID counters
 current_model_id = 0
@@ -145,7 +133,7 @@ current_metabolite_id = 0
 
 # Iterate through model files
 for i in model_files:
-    model = cobra.io.read_sbml_model('C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\%s'%i) #read model
+    model = cobra.io.read_sbml_model('/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/%s'%i) #read model
     print(model)
     # check if model is already in the table. if not, add to the table 
     if model.id not in modDict:
