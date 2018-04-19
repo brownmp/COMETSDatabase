@@ -8,13 +8,11 @@ import cgitb
 import pymysql
 cgitb.enable()
 
-# Methods
-# connect to the mySQL database and return the cursor and connection 
-def connect(username,password, database, host): 
-    connection = pymysql.connect(host=host, db = database, user=username, passwd=password)
-    cursor = connection.cursor()
-    return cursor, connection
+# Enter username and password
+connection = pymysql.connect(host=host, db = database, user=username, passwd=password)
+cursor = connection.cursor()
 
+# Methods
 def insert_model():
     connection = pymysql.connect()
     cursor = connection.cursor()
@@ -40,20 +38,43 @@ def insert_reactions():
 def insert_metabolites():
     connection = pymysql.connect()
     cursor = connection.cursor()
-    query = "INSERT INTO METABOLITES (NAME, STRING_NAME) VALUES("
+    query = "INSERT INTO METABOLITES (NAME, STRING_NAME, COMPARTMENT, KEGG, PUBCHEM, INCHI) VALUES("
     for index, row in METABOLITES.iterrows():
-        query += '"' + row["NAME"] + '"'+"," + '"' + row["Str_NAME"] + '"'+"),("
+        query += '"' + row["NAME"] + '"' + "," + '"' + row["Str_NAME"] + '"' + "," + '"' + row["COMPARTMENT"] 
+        + '"' + "," + '"' + row["KEGG"] + '"' + "," + '"' + row["PUBCHEM"] + '"' + "," + '"' + row["INCHI"] + '"' + "),("
     query = query[0:-2]
     query += ";"
     cursor.execute(query)
     connection.commit()
-    
+
+def insert_stoich():
+    connection = pymysql.connect()
+    cursor = connection.cursor()
+    query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, VALUE) VALUES("
+    for index, row in METABOLITES.iterrows():
+        query += '"' + row["REACTIONSID"] + '"' + "," + '"' + row["METABOLITESID"] + '"' + "," + '"' + row["VALUE"] + '"'+"),("
+    query = query[0:-2]
+    query += ";"
+    cursor.execute(query)
+    connection.commit()
+
+def insert_mod_react():
+    connection = pymysql.connect()
+    cursor = connection.cursor()
+    query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, VALUE) VALUES("
+    for index, row in METABOLITES.iterrows():
+        query += '"' + row["MID"] + '"' + "," + '"' + row["RID"] + '"' + "),("
+    query = query[0:-2]
+    query += ";"
+    cursor.execute(query)
+    connection.commit()
+
 def loadingAgora(directory):
     # get all the model files in the agora folder, hold in a list
     model_files = os.listdir(directory)[0:2]
     return model_files
 
-def addToReactions(reaction, model, current_reaction_id, REACTIONS, MOD_REACT):
+def addToReactions(reaction, current_model_id, current_reaction_id, REACTIONS, MOD_REACT):
     name = reaction.id
     str_name = reaction.name
     try:
@@ -61,10 +82,10 @@ def addToReactions(reaction, model, current_reaction_id, REACTIONS, MOD_REACT):
     except KeyError:
         ec = 'NA'    
     REACTIONS = REACTIONS.append({"RID": current_reaction_id ,"NAME": name, "Str_NAME": str_name, "ec-code": ec}, ignore_index=True)
-    MOD_REACT = MOD_REACT.append( { "MOD_NAME": model, "REACT_NAME": name }, ignore_index=True)
+    MOD_REACT = MOD_REACT.append( { "MID": current_model_id, "RID": current_reaction_id }, ignore_index=True)
     return REACTIONS, MOD_REACT
 
-def addToMetabolites(metid, met, model, METABOLITES): 
+def addToMetabolites(metid, met, model, METABOLITES):
     name = str(met.id).split('__91__')[0]
     str_name = met.name
     compartment = met.compartment 
@@ -95,7 +116,7 @@ def addToStoich(metid, rid, coeff, STOICH):
 # Main script
 # import modules
 MODELS = pandas.DataFrame(columns = ["MID","NAME"])
-MOD_REACT = pandas.DataFrame(columns = ["MOD_NAME","REACT_NAME"])
+MOD_REACT = pandas.DataFrame(columns = ["MID","RID"])
 REACTIONS = pandas.DataFrame(columns = ["RID","NAME","ec-code"])
 METABOLITES = pandas.DataFrame(columns = ["METABOLITESID", "NAME","Str_Name","COMPARTMENT","KEGG","PUBCHEM","INCHI"])
 STOICH = pandas.DataFrame(columns = ["REACTIONSID","METABOLITESID","VALUE"])
@@ -132,13 +153,13 @@ for i in model_files:
         MODELS = MODELS.append({"MID": current_model_id ,"NAME": model.id}, ignore_index=True)
         modDict[model.id] = ''
         print(MODELS)
-               
+
         # Get reactions in the model 
         for j in model.reactions:         
             # Check if rxn is in the table, add it if not
             if j.id not in rxnDict:
                 current_reaction_id += 1
-                REACTIONS, MOD_REACT = addToReactions(j, model.id, current_reaction_id,REACTIONS, MOD_REACT)
+                REACTIONS, MOD_REACT = addToReactions(j, current_model_id, current_reaction_id,REACTIONS, MOD_REACT)
                 rxnDict[j.id] = ''
 
                 # get metabolites and coefficients
@@ -169,8 +190,10 @@ for i in model_files:
                         stoichDict[stoich] = ''
     else:
         break
-print(MODELS)
-print(REACTIONS)
-print(METABOLITES)
-print(MOD_REACT)
-print(STOICH)
+
+# Insert the dataframes into the mySQL DB
+insert_model(MODELS)
+insert_reactions(REACTIONS)
+insert_metabolites(METABOLITES)
+insert_mod_react(MOD_REACT)
+insert_stoich(STOICH)
