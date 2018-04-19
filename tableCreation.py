@@ -48,8 +48,13 @@ def inTable(ID, DB):
         return True
 
 def inStoich(metID, rxnID, VALUE, STOICH):
-    b = ((STOICH["METABOLITESID"] == metID) & (STOICH["REACTIONSID"] == rxnID) & (STOICH["VALUE"] == VALUE)).all()
-    return False
+    #b = ((STOICH["METABOLITESID"] == metID) & (STOICH["REACTIONSID"] == rxnID) & (STOICH["VALUE"] == VALUE)).all()
+    try:
+        print(STOICH.loc[(STOICH["METABOLITESID"] == metID) & (STOICH["REACTIONSID"] == rxnID) & (STOICH["VALUE"] == VALUE)])
+    except KeyError:
+        return False
+    
+    return True
 
     
 def loadingAgora(directory):
@@ -107,23 +112,25 @@ for i in model_files:
         for j in model.reactions:
             if inTable(j.id, REACTIONS):
                 current_reaction_id += 1
-                REACTIONS, MOD_REACT = addToReactions(j, model.id, current_reaction_id,REACTIONS, MOD_REACT)
+                REACTIONS, MOD_REACT = addToReactions(j, model.id, current_reaction_id, REACTIONS, MOD_REACT)
                 # get metabolites and coefficients
                 for met,coeff in j.metabolites.items():                
-                    metID = METABOLITES['METABOLITESID'].where(METABOLITES['NAME'] == str(met.id).split('__91__')[0])
+                    #metID = METABOLITES['METABOLITESID'].where(METABOLITES['NAME'] == str(met.id).split('__91__')[0]).item()
+                    metID = 0
+                    print(inStoich(metID, current_reaction_id, coeff, STOICH))
                     if inStoich(metID, current_reaction_id, coeff, STOICH):
                         break
                     elif inTable(str(met.id).split('__91__')[0], METABOLITES):
                         # Add to STOICH
-                        STOICH = addToStoich(current_reaction_id, metID, coeff, STOICH)
+                        STOICH = addToStoich(metID, current_reaction_id, coeff, STOICH)
                     else:
                         current_metabolite_id += 1
                         # Add to METABOLITES and STOICH
                         METABOLITES = addToMetabolites(current_metabolite_id, met, METABOLITES)
-                        STOICH = addToStoich(current_reaction_id, current_metabolite_id, coeff, STOICH)
+                        STOICH = addToStoich(current_metabolite_id, current_reaction_id, coeff, STOICH)
     else:
         break
-#print(MODELS)
+print(MODELS)
 #print(REACTIONS)
 #print(METABOLITES)
 #print(MOD_REACT)
