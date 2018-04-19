@@ -5,12 +5,12 @@ import pandas
 import pymysql
 import cgi
 import cgitb
+import pymysql
 cgitb.enable()
 
 # Methods
 # connect to the mySQL database and return the cursor and connection 
-def connect(username,password, database, host):
-    import pymysql
+def connect(username,password, database, host): 
     connection = pymysql.connect(host=host, db = database, user=username, passwd=password)
     cursor = connection.cursor()
     return cursor, connection
@@ -47,20 +47,6 @@ def insert_metabolites():
     query += ";"
     cursor.execute(query)
     connection.commit()
-
-def notInTable(ID, DF):
-    if sum(DF.isin({"NAME": [ID]})["NAME"]) < 0:
-    #if DF[DF.NAME == ID].any():
-        return False
-    else:
-        return True
-
-def inStoich(metID, rxnID, VALUE, STOICH):
-    #b =(STOICH["METABOLITESID"] == metID).any()
-    b = ( (STOICH["METABOLITESID"] == metID) & (STOICH["REACTIONSID"] == rxnID) & (STOICH["VALUE"] == VALUE) ).all()
-    #test = STOICH.loc[ STOICH[( (STOICH["METABOLITESID"] == metID) & (STOICH["REACTIONSID"] == rxnID) & (STOICH["VALUE"] == VALUE))]]
-    return b#test
-
     
 def loadingAgora(directory):
     # get all the model files in the agora folder, hold in a list
@@ -113,52 +99,78 @@ MOD_REACT = pandas.DataFrame(columns = ["MOD_NAME","REACT_NAME"])
 REACTIONS = pandas.DataFrame(columns = ["RID","NAME","ec-code"])
 METABOLITES = pandas.DataFrame(columns = ["METABOLITESID", "NAME","Str_Name","COMPARTMENT","KEGG","PUBCHEM","INCHI"])
 STOICH = pandas.DataFrame(columns = ["REACTIONSID","METABOLITESID","VALUE"])
+
+# Dictionary to store met IDs
+metDict = {}
+
+# Dictionary to store model IDs
+modDict = {}
+
+# Dictionary to store rxn IDs
+rxnDict = {}
+
+# Dictionary to store Stoich info
+stoichDict = {}
+
 # connect to the database 
 #cursor = connect()
 # read each model in the Agora file 
-model_files = loadingAgora("Agora-1.02/sbml")
+model_files = loadingAgora("C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\")
 
+# Initialize ID counters
 current_model_id = 0
 current_reaction_id = 0
 current_metabolite_id = 0
-# read each model and get the ID
+
+# Iterate through model files
 for i in model_files:
-    model = cobra.io.read_sbml_model('Agora-1.02/sbml/%s'%i) #read model
+    model = cobra.io.read_sbml_model('C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\%s'%i) #read model
     print(model)
     # check if model is already in the table. if not, add to the table 
-    if notInTable(model.id, MODELS):
+    if model.id not in modDict:
         current_model_id += 1
         MODELS = MODELS.append({"MID": current_model_id ,"NAME": model.id}, ignore_index=True)
+        modDict[model.id] = ''
         print(MODELS)
-        
+               
         # Get reactions in the model 
-        for j in model.reactions:
-            if notInTable(j.id, REACTIONS):
+        for j in model.reactions:         
+            # Check if rxn is in the table, add it if not
+            if j.id not in rxnDict:
                 current_reaction_id += 1
                 REACTIONS, MOD_REACT = addToReactions(j, model.id, current_reaction_id,REACTIONS, MOD_REACT)
-                
+                rxnDict[j.id] = ''
+
                 # get metabolites and coefficients
                 for met,coeff in j.metabolites.items():                
-            
-    
-                    if notInTable(str(met.id).split('__91__')[0], METABOLITES):
+                    # Store met name
+                    metID = str(met.id).split('__91__')[0]
+                    
+                    # Create unique key for stoichDict                
+                    stoich = metID + str(current_reaction_id) + str(coeff)
+                
+                    # If already in stoich then must also already be in met table so break out of loop
+                    if stoich in stoichDict:
+                        break
+                    
+                    # If not in stoich but met already added, just add stoich entry and lookup metID with dict
+                    elif metID in metDict:
+                        stoichDict[stoich] = ''
+                        # Add to STOICH
+                        STOICH = addToStoich( metDict[metID], current_reaction_id, coeff, STOICH )
+                        
+                    # If not in stoich or mets then increment current ID counter and add to both tables    
+                    else:
                         current_metabolite_id += 1
+                        metDict[metID] = current_metabolite_id
                         METABOLITES = addToMetabolites(current_metabolite_id, met, model, METABOLITES)
-                        
-                    metID = METABOLITES['METABOLITESID'].where(METABOLITES['NAME'] == str(met.id).split('__91__')[0])
-                    
- 
-                    # Add to STOICH
-                    STOICH = addToStoich( metID, current_reaction_id, coeff, STOICH )
-                    
-                    # Add to METABOLITES
-                    #if notInTable(metID,METABOLITES):
-                     #   METABOLITES = addToMetabolites(current_metabolite_id, met, model, METABOLITES)
-                        
+                        # Add to STOICH
+                        STOICH = addToStoich( current_metabolite_id, current_reaction_id, coeff, STOICH )
+                        stoichDict[stoich] = ''
     else:
         break
-#print(MODELS)
-#print(REACTIONS)
+print(MODELS)
+print(REACTIONS)
 print(METABOLITES)
-#print(MOD_REACT)
+print(MOD_REACT)
 print(STOICH)
