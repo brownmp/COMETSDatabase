@@ -9,7 +9,7 @@ import pymysql
 cgitb.enable()
 
 # Enter username and password
-connection = pymysql.connect(host=host, db = database, user=username, passwd=password)
+connection = pymysql.connect(host="bioed.bu.edu", db = "groupB", user="", passwd="")
 cursor = connection.cursor()
 
 # Methods
@@ -192,8 +192,8 @@ for i in model_files:
         break
 
 # Insert the dataframes into the mySQL DB
-insert_model(MODELS)
-insert_reactions(REACTIONS)
-insert_metabolites(METABOLITES)
-insert_mod_react(MOD_REACT)
-insert_stoich(STOICH)
+insert_model()
+insert_reactions()
+insert_metabolites()
+insert_mod_react()
+insert_stoich()
