@@ -69,12 +69,12 @@ def addToReactions(reaction, current_model_id, current_reaction_id, REACTIONS, M
     try:
         ec = reaction.annotation['ec-code']
     except KeyError:
-        ec = 'NA'    
+        ec = NULL    
     REACTIONS = REACTIONS.append({"RID": current_reaction_id ,"NAME": name, "Str_NAME": str_name, "ec-code": ec}, ignore_index=True)
     MOD_REACT = MOD_REACT.append( { "MID": current_model_id, "RID": current_reaction_id }, ignore_index=True)
     return REACTIONS, MOD_REACT
 
-def addToMetabolites(metid, met, model, METABOLITES):
+def addToMetabolites(met, model, METABOLITES):
     name = str(met.id).split('__91__')[0]
     str_name = met.name
     compartment = met.compartment 
@@ -82,31 +82,33 @@ def addToMetabolites(metid, met, model, METABOLITES):
     try:
         kegg = model.metabolites.get_by_id(met.id).annotation["kegg.compound"]
     except KeyError:
-        kegg = 'NA'
+        kegg = NULL
     try:
         pubchem = model.metabolites.get_by_id(met.id).annotation["pubchem.compound"]
     except KeyError:
-        pubchem = 'NA'
+        pubchem = NULL
     try:
         inchi = model.metabolites.get_by_id(met.id).annotation["inchi"]
     except KeyError:
-        inchi = 'NA'
+        inchi = NULL    
     
-    METABOLITES = METABOLITES.append({"METABOLITESID":metid, "NAME": name,"Str_NAME": str_name,"COMPARTMENT": compartment, "KEGG": kegg, "PUBCHEM": pubchem, "INCHI": inchi}, 
-                                         ignore_index=True)
+    METABOLITES.update(pandas.DataFrame({"Str_NAME": str_name, "COMPARTMENT": compartment, "KEGG": kegg, "PUBCHEM": pubchem, "INCHI": inchi}, 
+                                         index=[name]))
     return METABOLITES
 
 def addToStoich(metid, rid, coeff, STOICH):
     STOICH = STOICH.append({"REACTIONSID": rid,"METABOLITESID": metid,"VALUE": coeff}, ignore_index=True)
     return STOICH
-
+    
+            
 
 # Main script
 # import modules
 MODELS = pandas.DataFrame(columns = ["MID","NAME"])
 MOD_REACT = pandas.DataFrame(columns = ["MID","RID"])
 REACTIONS = pandas.DataFrame(columns = ["RID","NAME","ec-code"])
-METABOLITES = pandas.DataFrame(columns = ["METABOLITESID", "NAME","Str_Name","COMPARTMENT","KEGG","PUBCHEM","INCHI"])
+METABOLITES = pandas.DataFrame(columns = ["METABOLITESID", "SEEDID", "NAME", "Str_Name", "COMPARTMENT","KEGG","PUBCHEM","INCHI"])
+METABOLITES.set_index('NAME')
 STOICH = pandas.DataFrame(columns = ["REACTIONSID","METABOLITESID","VALUE"])
 
 # Dictionary to store met IDs
@@ -124,16 +126,33 @@ stoichDict = {}
 # connect to the database 
 #cursor = connect()
 # read each model in the Agora file 
-model_files = loadingAgora("/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/")
+model_files = loadingAgora("C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\")
 
 # Initialize ID counters
 current_model_id = 0
 current_reaction_id = 0
 current_metabolite_id = 0
 
+# Parse metnames.db and add to dataframe
+import csv
+with open('NAME.csv', newline='\n') as csvfile:
+    myReader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+    for row in myReader:
+        metID = row["metabolite"]
+        name = row["name"]
+        if name[0:3] != 'cpd':
+            currentFrame = pandas.DataFrame({"METABOLITESID": metID, "NAME": name}, index=[name])
+            METABOLITES = pandas.concat([METABOLITES, currentFrame])
+            metDict[name] = metID
+#unfinished
+with open('')
+            seedID = row["name"]
+            METABOLITES.update(pandas.DataFrame({"SEEDID": seedID}, index=[name]))
+            print(METABOLITES)
+
 # Iterate through model files
 for i in model_files:
-    model = cobra.io.read_sbml_model('/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/%s'%i) #read model
+    model = cobra.io.read_sbml_model('C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\%s'%i) #read model
     print(model)
     # check if model is already in the table. if not, add to the table 
     if model.id not in modDict:
@@ -167,15 +186,11 @@ for i in model_files:
                         stoichDict[stoich] = ''
                         # Add to STOICH
                         STOICH = addToStoich( metDict[metID], current_reaction_id, coeff, STOICH )
+                        METABOLITES = addToMetabolites(met, model, METABOLITES)
                         
                     # If not in stoich or mets then increment current ID counter and add to both tables    
                     else:
-                        current_metabolite_id += 1
-                        metDict[metID] = current_metabolite_id
-                        METABOLITES = addToMetabolites(current_metabolite_id, met, model, METABOLITES)
-                        # Add to STOICH
-                        STOICH = addToStoich( current_metabolite_id, current_reaction_id, coeff, STOICH )
-                        stoichDict[stoich] = ''
+                        print('missing met')
     else:
         break
 
