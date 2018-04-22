@@ -9,7 +9,7 @@ import pymysql
 cgitb.enable()
 
 # Enter username and password
-connection = pymysql.connect(host="bioed.bu.edu", db = "groupB", user="", passwd="")
+connection = pymysql.connect(host="bioed.bu.edu", db = "groupB", user="ahamel19", passwd="Sparticus6")
 cursor = connection.cursor()
 
 # Methods
@@ -32,7 +32,7 @@ def insert_reactions():
     connection.commit()
 
 def insert_metabolites():
-    query = "INSERT INTO METABOLITES (NAME, STRING_NAME, COMPARTMENT, KEGG, PUBCHEM, INCHI) VALUES("
+    query = "INSERT INTO METABOLITE (NAME, STRING_NAME, COMPARTMENT, KEGG, PUBCHEM,INCHI) VALUES("
     for index, row in METABOLITES.iterrows():
         query += '"' + row["NAME"] + '"' + "," + '"' + row["Str_NAME"] + '"' + "," + '"' + row["COMPARTMENT"] + '"' + "," + '"' + row["KEGG"] + '"' + "," + '"' + row["PUBCHEM"] + '"' + "," + '"' + row["INCHI"] + '"' + "),("
     query = query[0:-2]
@@ -41,7 +41,7 @@ def insert_metabolites():
     connection.commit()
 
 def insert_stoich():
-    query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, VALUE) VALUES("
+    query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, COEFF) VALUES("
     for index, row in METABOLITES.iterrows():
         query += '"' + row["REACTIONSID"] + '"' + "," + '"' + row["METABOLITESID"] + '"' + "," + '"' + row["VALUE"] + '"'+"),("
     query = query[0:-2]
@@ -50,9 +50,9 @@ def insert_stoich():
     connection.commit()
 
 def insert_mod_react():
-    query = "INSERT INTO STOICH (REACTIONSID, METABOLITESID, VALUE) VALUES("
-    for index, row in METABOLITES.iterrows():
-        query += '"' + row["MID"] + '"' + "," + '"' + row["RID"] + '"' + "),("
+    query = "INSERT INTO Model_Reactions (MODELID, REACTIONSID) VALUES("
+    for index, row in MOD_REACT.iterrows():
+        query += row["MID"] + row["RID"] + "),("
     query = query[0:-2]
     query += ";"
     cursor.execute(query)
@@ -140,7 +140,7 @@ for i in model_files:
         current_model_id += 1
         MODELS = MODELS.append({"MID": current_model_id ,"NAME": model.id}, ignore_index=True)
         modDict[model.id] = ''
-        print(MODELS)
+        #print(MODELS)
 
         # Get reactions in the model 
         for j in model.reactions:         
@@ -154,7 +154,7 @@ for i in model_files:
                 for met,coeff in j.metabolites.items():                
                     # Store met name
                     metID = str(met.id).split('__91__')[0]
-                    
+                     
                     # Create unique key for stoichDict                
                     stoich = metID + str(current_reaction_id) + str(coeff)
                 
