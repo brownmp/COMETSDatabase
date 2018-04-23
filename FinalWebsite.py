@@ -27,46 +27,45 @@ integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJ
 <script src="js/jquery.ui.autocomplete.html.js" />
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"</script>
 
-<title> Database Project </title>
+<div class="jumbotron text-center">
+  <h1>Database Project</h1>
+  <p>Virtual experiments using COMETS!</p> 
+</div>
+
 
 </head>
 
 <body>
-<h1>Create Growth Curve from COMETS</h1>
-<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/FinalWebsite.py" method="POST">
-<h2>Beginner Search: Select Model and Media</h2>
+<div class="row" style="padding-left: 50px;">
+  <div class="col-sm-4">
+  	<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/FinalWebsite.py" method="POST">
+		<h2>Select Model and Media</h2>
 
 
-<div>
-<script src="bootstrap-autocomplete.min.js"></script>
+		<script src="bootstrap-autocomplete.min.js"></script>
 
-<form autocomplete="off" action="/action_page.php">
-  <div class="autocomplete" style="width:300px;">
-    <input id="model" type="text" name="myCountry" placeholder="Choose Models">
+		<form autocomplete="off" action="/action_page.php">
+		  <div class="autocomplete" style="width:300px;">
+		    <input id="model" class="form-control" type="text" name="myCountry" placeholder="Choose Models">
+		  </div>
+		  <input type="submit" class="btn">
+		</form>
+
+		<div class="form-group">
+		    <label for="model">Model</label>
+		    <input id="model" class="form-control" size="30" value = "%s" type="text" />
+
+		    <label for="media">Media</label>
+		    <input id="media" class="form-control" size="30" value = "%s" type="text" />
+
+		   	<input type="submit" class="btn" value="Submit" >
+
+		</div>
+
+		<button type="button" class="btn">Advanced Search</button>
+	</form>
   </div>
-  <input type="submit">
-</form>
-
-
-    <label for="model">Model</label>
-    <input id="model" size="30" value = "%s" type="text" />
-
-    <label for="media">Media</label>
-    <input id="media" size="30" value = "%s" type="text" />
-
-   <input type="submit" value="Submit" >
-
 </div>
-
-<h2>Advanced Search</h2>
-
-
-
-
-</form>
-
-
-<hr />
 </body></html>
 </table></body></html>
 
