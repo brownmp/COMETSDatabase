@@ -9,7 +9,7 @@ import pymysql
 cgitb.enable()
 
 # Enter username and password
-connection = pymysql.connect(host="", db = "", user="", passwd="")
+connection = pymysql.connect(host="bioed.bu.edu", db = "groupB", user="ahamel19", passwd="Sparticus6")
 cursor = connection.cursor()
 
 # Methods
@@ -32,9 +32,9 @@ def insert_reactions():
     connection.commit()
 
 def insert_metabolites():
-    query = "INSERT INTO METABOLITE (NAME, STRING_NAME, COMPARTMENT, KEGG, PUBCHEM,INCHI) VALUES("
+    query = "INSERT INTO METABOLITE (NAME, SEEDID, STRING_NAME, COMPARTMENT, KEGG, PUBCHEM,INCHI) VALUES("
     for index, row in METABOLITES.iterrows():
-        query += '"' + row["NAME"] + '"' + "," + '"' + row["Str_NAME"] + '"' + "," + '"' + row["COMPARTMENT"] + '"' + "," + '"' + row["KEGG"] + '"' + "," + '"' + row["PUBCHEM"] + '"' + "," + '"' + row["INCHI"] + '"' + "),("
+        query += '"' + row["NAME"] + '"' + "," + '"' + row["SEEDID"] + '"' + ","+ '"' + row["Str_NAME"] + '"' + "," + '"' + row["COMPARTMENT"] + '"' + "," + '"' + row["KEGG"] + '"' + "," + '"' + row["PUBCHEM"] + '"' + "," + '"' + row["INCHI"] + '"' + "),("
     query = query[0:-2]
     query += ";"
     cursor.execute(query)
@@ -126,7 +126,7 @@ stoichDict = {}
 # connect to the database 
 #cursor = connect()
 # read each model in the Agora file 
-model_files = loadingAgora("")
+model_files = loadingAgora("/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/")
 
 # Initialize ID counters
 current_model_id = 0
@@ -146,17 +146,17 @@ with open('NAME.csv', newline='\n') as csvfile:
             metDict[name] = metID
 #unfinished
 with open('PSEUDONYM.csv', newline = '\n') as csvfile:
-    myReader csv.DictReader(csvfile, delimiter=',',quotechar='"')
+    myReader = csv.DictReader(csvfile, delimiter=',',quotechar='"')
     for row in myReader:
         seedID = row["pseudonym"]
         name = row["official"]
-        if pseudonym[0:3] == 'cpd':
+        if seedID[0:3] == 'cpd':
             METABOLITES.update(pandas.DataFrame({"SEEDID": seedID}, index=[name]))
             print(METABOLITES)
 
 # Iterate through model files
 for i in model_files:
-    model = cobra.io.read_sbml_model('%s'%i) #read model
+    model = cobra.io.read_sbml_model('/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/%s'%i) #read model
     print(model)
     # check if model is already in the table. if not, add to the table 
     if model.id not in modDict:
