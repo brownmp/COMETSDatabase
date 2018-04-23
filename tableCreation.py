@@ -9,7 +9,7 @@ import pymysql
 cgitb.enable()
 
 # Enter username and password
-connection = pymysql.connect(host="bioed.bu.edu", db = "groupB", user="ahamel19", passwd="Sparticus6")
+connection = pymysql.connect(host="", db = "", user="", passwd="")
 cursor = connection.cursor()
 
 # Methods
@@ -126,7 +126,7 @@ stoichDict = {}
 # connect to the database 
 #cursor = connect()
 # read each model in the Agora file 
-model_files = loadingAgora("C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\")
+model_files = loadingAgora("")
 
 # Initialize ID counters
 current_model_id = 0
@@ -145,14 +145,18 @@ with open('NAME.csv', newline='\n') as csvfile:
             METABOLITES = pandas.concat([METABOLITES, currentFrame])
             metDict[name] = metID
 #unfinished
-with open('')
-            seedID = row["name"]
+with open('PSEUDONYM.csv', newline = '\n') as csvfile:
+    myReader csv.DictReader(csvfile, delimiter=',',quotechar='"')
+    for row in myReader:
+        seedID = row["pseudonym"]
+        name = row["official"]
+        if pseudonym[0:3] == 'cpd':
             METABOLITES.update(pandas.DataFrame({"SEEDID": seedID}, index=[name]))
             print(METABOLITES)
 
 # Iterate through model files
 for i in model_files:
-    model = cobra.io.read_sbml_model('C:\\Users\\jrodi\\OneDrive\\Desktop\\sbml\\%s'%i) #read model
+    model = cobra.io.read_sbml_model('%s'%i) #read model
     print(model)
     # check if model is already in the table. if not, add to the table 
     if model.id not in modDict:
