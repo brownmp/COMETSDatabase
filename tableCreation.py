@@ -154,6 +154,26 @@ with open('PSEUDONYM.csv', newline = '\n') as csvfile:
             METABOLITES.update(pandas.DataFrame({"SEEDID": seedID}, index=[name]))
             print(METABOLITES)
 
+# Create the RECIPE tabel 
+with pandas.read_csv(open('NAME.csv', 'r')) as NAME:
+## Load the basil and M9 media recipes 
+    M9 = pandas.read_csv(open('KOMODO/KOMODO_M9.csv', 'r'))
+    basil = pandas.read_csv(open('KOMODO/KOMODO_basil.csv', 'r'))
+
+    ## add the media ID 
+    basil['MEDIAID'] = pandas.Series([1] * len(basil))
+    M9['MEDIAID'] = pandas.Series([2] * len(M9))
+
+    ## combine into RECIPE table 
+    RECIPE = pandas.concat([basil,M9], ignore_index=True)
+    RECIPE.columns = ["SEEDID","NAME","CONCENTRATION","MEDIAID"] ## NAME is in pseudonym, ID is media ID 
+
+    IDS = []
+    for i in RECIPE["SEEDID"]:
+        ids = int(NAME[NAME["name"]==i].get("metabolite")) # returns a series object, use get to get value (key=metabolites)
+        IDS.append(ids)
+    RECIPE["METID"]=IDS
+
 # Iterate through model files
 for i in model_files:
     model = cobra.io.read_sbml_model('/Users/andrewhamel/Desktop/Databases/Project/Agora/sbml/%s'%i) #read model
