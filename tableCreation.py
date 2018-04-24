@@ -9,7 +9,7 @@ import pymysql
 cgitb.enable()
 
 # Enter username and password
-connection = pymysql.connect(host="bioed.bu.edu", db = "groupB", user="ahamel19", passwd="Sparticus6")
+connection = pymysql.connect(host="", db = "", user="", passwd="")
 cursor = connection.cursor()
 
 # Methods
@@ -155,24 +155,24 @@ with open('PSEUDONYM.csv', newline = '\n') as csvfile:
             print(METABOLITES)
 
 # Create the RECIPE tabel 
-with pandas.read_csv(open('NAME.csv', 'r')) as NAME:
 ## Load the basil and M9 media recipes 
-    M9 = pandas.read_csv(open('KOMODO/KOMODO_M9.csv', 'r'))
-    basil = pandas.read_csv(open('KOMODO/KOMODO_basil.csv', 'r'))
+M9 = pandas.read_csv(open('KOMODO/KOMODO_M9.csv', 'r'))
+basil = pandas.read_csv(open('KOMODO/KOMODO_basil.csv', 'r'))
 
-    ## add the media ID 
-    basil['MEDIAID'] = pandas.Series([1] * len(basil))
-    M9['MEDIAID'] = pandas.Series([2] * len(M9))
+## add the media ID 
+basil['MEDIAID'] = pandas.Series([1] * len(basil))
+M9['MEDIAID'] = pandas.Series([2] * len(M9))
 
-    ## combine into RECIPE table 
-    RECIPE = pandas.concat([basil,M9], ignore_index=True)
-    RECIPE.columns = ["SEEDID","NAME","CONCENTRATION","MEDIAID"] ## NAME is in pseudonym, ID is media ID 
+## combine into RECIPE table 
+RECIPE = pandas.concat([basil,M9], ignore_index=True)
+RECIPE.columns = ["SEEDID","NAME","CONCENTRATION","MEDIAID"] ## NAME is in pseudonym, ID is media ID 
 
-    IDS = []
-    for i in RECIPE["SEEDID"]:
-        ids = int(NAME[NAME["name"]==i].get("metabolite")) # returns a series object, use get to get value (key=metabolites)
-        IDS.append(ids)
-    RECIPE["METID"]=IDS
+NAME = pandas.read_csv(open('NAME.csv', 'r'))
+IDS = []
+for i in RECIPE["SEEDID"]:
+    ids = int(NAME[NAME["name"]==i].get("metabolite")) # returns a series object, use get to get value (key=metabolites)
+    IDS.append(ids)
+RECIPE["METID"]=IDS
 
 # Iterate through model files
 for i in model_files:
