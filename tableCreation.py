@@ -173,6 +173,7 @@ for i in RECIPE["SEEDID"]:
     ids = int(NAME[NAME["name"]==i].get("metabolite")) # returns a series object, use get to get value (key=metabolites)
     IDS.append(ids)
 RECIPE["METID"]=IDS
+RECIPE = RECIPE.drop(columns=["SEEDID"])
 
 # Iterate through model files
 for i in model_files:
