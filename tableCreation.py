@@ -42,8 +42,8 @@ def addToMetabolites(metID, officialName, met, model, METABOLITES):
     except KeyError:
         inchi = "NULL"   
     
-    METABOLITES.update(pandas.DataFrame({"METABOLITESID": metID, "NAME": officialName, "Str_NAME": str_name, "COMPARTMENT": compartment, "KEGG": kegg, "PUBCHEM": pubchem, "INCHI": inchi}, 
-                                         index=[officialName]))
+    METABOLITES = METABOLITES.append({"METABOLITESID": metID, "NAME": officialName, "Str_NAME": str_name, "COMPARTMENT": compartment, "KEGG": kegg, "PUBCHEM": pubchem, "INCHI": inchi}, 
+                                         ignore_index=True)
     return METABOLITES
 
 def addToStoich(metid, rid, coeff, STOICH):
@@ -58,7 +58,6 @@ MODELS = pandas.DataFrame(columns = ["MID","NAME"])
 MOD_REACT = pandas.DataFrame(columns = ["MID","RID"])
 REACTIONS = pandas.DataFrame(columns = ["RID","NAME","ec-code"])
 METABOLITES = pandas.DataFrame(columns = ["METABOLITESID", "NAME", "Str_Name", "COMPARTMENT","KEGG","PUBCHEM","INCHI"])
-METABOLITES.set_index('NAME')
 STOICH = pandas.DataFrame(columns = ["REACTIONSID","METABOLITESID","VALUE"])
 
 # Dictionary to store met IDs
