@@ -98,9 +98,33 @@ def execute_query(query):
 	
 	# return the results
 	return results
+def graph():
+	totalBiomass = pandas.read_table("total_biomass.txt", index_col = 0)
+	fig, (ax,bx) = plt.subplots(2)
+
+	# plot growth as ax
+	y = totalBiomass.mean(axis=1)
+	x = list(range(len(y))) 
+	ax.set(xlabel="Time (t)", ylabel='Biomass f(t)',
+	       title='Biomass Over Time')
+	ax.grid()
+	ax.plot(x,y)
+
+	# plot the rate of growth
+	rate = np.gradient(np.asarray(y)) # get the rate 
+	bx.set(xlabel="Time (t)", ylabel='Biomass f\'(t)',
+	       title='Growth Rate')
+	bx.grid()
+	bx.plot(x,rate)
+	plt.subplots_adjust(hspace=.5,
+                    wspace=1 )
+	
+	#print(fig) # figure dimensions 
+	print(mpld3.fig_to_html(fig))
 
 #query = submit_MODEL(model,media)
 #print(execute_query(query))
 
 printHead()
 printHomepage()
+graph()
