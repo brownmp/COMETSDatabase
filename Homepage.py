@@ -47,16 +47,18 @@ def printHomepage():
 					    <label for="media">Media</label>
 
 					    <select class="form-control">
-					    	<option value=""</option>
+					    	<option value="">Choose Media</option>
 							<option value="Basal">Basal</option>
 							<option value="M9">M9</option>
 						</select>
 
 					</div>
 
-					<input type="submit" class="btn" value="Submit" >
+					<input type="submit" class="btn btn-success" value="Submit" >
 				</form>
-				<button type="button" class="btn" href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/AdvancedSearch.py">Advanced Search</button>
+				<form action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py">
+					<input type="submit" class="btn btn-secondary" value="Advanced" />
+				</form>
 			</div>
 		</div>
 	</body>
