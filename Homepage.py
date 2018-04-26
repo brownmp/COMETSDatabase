@@ -3,6 +3,13 @@ import pymysql
 import sys
 import cgi
 import cgitb
+import os
+os.environ[ 'HOME' ] = '/home/students_18/GroupB/cgi-bin/'
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt, mpld3
+import pandas 
+import numpy as np
 cgitb.enable()
 
 # print content-type
@@ -99,12 +106,6 @@ def execute_query(query):
 	# return the results
 	return results
 def graph():
-	os.environ[ 'HOME' ] = '/home/students_18/GroupB/cgi-bin/'
-	import matplotlib
-	matplotlib.use("Agg")
-	import matplotlib.pyplot as plt, mpld3
-	import pandas 
-	import numpy as np
 	totalBiomass = pandas.read_table("total_biomass.txt", index_col = 0)
 	fig, (ax,bx) = plt.subplots(2)
 
