@@ -35,41 +35,47 @@ def printHomepage():
 	print("""
 	<body>
 		<div class="jumbotron text-center">
-			<h1>Database Project</h1>
-			<p>Virtual experiments using COMETS!</p> 
+			<h1>Biological Databases Project</h1>
+			<p>Virtual experiments using COMETS!</p>
 		</div>
-		<div class="row" style="padding-left: 50px;">
-			<div class="col-sm-4">
-				<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/FinalWebsite.py" method="POST">
-					<h2>Select Model and Media</h2>
+		<div class="container-fluid" style="padding-left: 50px;">
+			<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
+				<div class="row">
+					<div class="col">
+						<div class="col-8">
+							<h2>Select Model and Media</h2>
 
-					<div class="form-group">
+							<div class="form-group">
 
-					    <label for="model">Model</label>
+							    <label for="model">Model</label>
 
-					    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
+							    <input id="model" class="form-control" type="text" width="100" name="model" placeholder="Choose Models">
 
-					    <br>
+							    <br>
 
-					    <label for="media">Media</label>
+							    <label for="media">Media</label>
 
-					    <select class="form-control">
-					    	<option value="">Choose Media</option>
-							<option value="Basal">Basal</option>
-							<option value="M9">M9</option>
-						</select>
+							    <select class="form-control">
+							    	<option value="">Choose Media</option>
+									<option value="Basal">Basal</option>
+									<option value="M9">M9</option>
+								</select>
 
+								<br>
+
+							</div>
+
+							<input type="submit" class="btn btn-success" value="Submit" >
+
+							<a href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" class="btn btn-secondary">Advanced</a>
+						</div>
+						<div class="col-4">
+						</div>
 					</div>
 
-					<input type="submit" class="btn btn-success" value="Submit" >
-				</form>
-				<form action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py">
-					<input type="submit" class="btn btn-secondary" value="Advanced" />
-				</form>
-			</div>
-		</div>
-	</body>
-	</html>
+					<div class="col">
+
+					
 	""")
 
 
@@ -128,6 +134,15 @@ def graph():
 	
 	#print(fig) # figure dimensions 
 	print(mpld3.fig_to_html(fig))
+	print("""
+		</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	</html>
+
+		""")
 
 #query = submit_MODEL(model,media)
 #print(execute_query(query))

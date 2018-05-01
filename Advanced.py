@@ -23,50 +23,48 @@ def printAdvancedSearch():
 	print("""
 	<body>
 		<div class="jumbotron text-center">
-			<h1>Database Project</h1>
+			<h1>Biological Databases Project</h1>
 			<p>Virtual experiments using COMETS!</p> 
 		</div>
-		<div class="row" style="padding-left: 50px;">
-			<div class="col-sm-4">
-				<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" method="POST">
-					<h2>Advanced Search!</h2>
-
-					<div class="form-group">
-
-					    <label for="model">Model</label>
-
-					    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
-
-					    <br>
-
-					    <label for="reactions">Reactions</label>
-
-					    <input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Models">
-
-					    <br>
-
-					    <label for="metabolites">Metabolites</label>
-
-					    <input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Models">
-
-					    <br>
-
-					    <label for="media">Media</label>
-
-					    <select class="form-control">
-					    	<option value=""</option>
-							<option value="Basal">Basal</option>
-							<option value="M9">M9</option>
-						</select>
-
+		<div class="container-fluid" style="padding-left: 50px; padding-right: 50px;">
+			<div class="row">
+				<h1>Advanced Search</h1>
+			</div>
+			<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" method="POST">
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+						    <label for="model">Model</label>
+						    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
+						    <br>
+						    <label for="media">Media</label>
+						    <select class="form-control">
+						    	<option value=""</option>
+								<option value="Basal">Basal</option>
+								<option value="M9">M9</option>
+							</select>
+						</div>
+						<input type="submit" class="btn btn-success" value="Submit" >
+						<a href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" class="btn btn-secondary">Basic</a>
 					</div>
 
-					<input type="submit" class="btn" value="Submit" >
-				</form>
-				<form action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py">
-    				<input type="submit" class="btn" value="Basic" />
-				</form>
-			</div>
+					<div class="col">
+						<div class="form-group">
+							<label for="reactions">Reactions</label>
+							<input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Reactions">
+							<br>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="form-group">
+						<label for="metabolites">Metabolites</label>
+						<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
+						<br>
+					</div>
+				</div>
+				
+			</form>
 		</div>
 	</body>
 	</html>
