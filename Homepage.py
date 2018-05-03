@@ -26,8 +26,8 @@ def printHead():
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
@@ -62,16 +62,17 @@ def printHomepage():
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#Basic">Basic</a></li>
 				<li><a data-toggle="tab" href="#Advanced">Advanced</a></li>
+				<li><a data-toggle="tab" href="#Statistics">Statistics</a></li>
 				<li><a data-toggle="tab" href="#About">About</a></li>
 				<li><a data-toggle="tab" href="#Help">Help</a></li>
 			</ul>
 
 			<div class="tab-content">
 			    <div id="Basic" class="tab-pane fade in active">
-				    <div class="container-fluid" style="padding-left: 50px;">
-						<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
-							<div class="row">
-								<div class="col">
+				    <div class="container-fluid">
+						<div class="row flex-row">
+							<div class="col-md-6">
+								<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
 									<div class="col-8">
 										<h2>Select Model and Media</h2>
 
@@ -99,52 +100,79 @@ def printHomepage():
 									</div>
 									<div class="col-4">
 									</div>
-								</div>
-
-								<div class="col">""")
+								</form>
+							</div>
+							<div class="col-md-6">""")
 	graph()
 	print("""
-		    </div>
-		    <div id="Advanced" class="tab-pane fade">
-			    <div class="row">
-					<h1>Advanced Search</h1>
-				</div>
-				<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" method="POST">
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-							    <label for="model">Model</label>
-							    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
-							    <br>
-							    <label for="media">Media</label>
-							    <select class="form-control">
-							    	<option value=""</option>
-									<option value="Basal">Basal</option>
-									<option value="M9">M9</option>
-								</select>
 							</div>
-							<input type="submit" class="btn btn-success" value="Submit" >
-							<a href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" class="btn btn-secondary">Basic</a>
 						</div>
+					</div>
+				</div>
+		""")
+	print("""
+			    <div id="Advanced" class="tab-pane fade">
+				    <div class="row">
+						<h1>Advanced Search</h1>
+					</div>
+					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" method="POST">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+								    <label for="model">Model</label>
+								    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
+								    <br>
+								    <label for="media">Media</label>
+								    <select class="form-control">
+								    	<option value="">Choose Media</option>
+										<option value="Basal">Basal</option>
+										<option value="M9">M9</option>
+									</select>
+								</div>
+								<input type="submit" class="btn btn-success" value="Submit" >
+							</div>
 
-						<div class="col">
-							<div class="form-group">
-								<label for="reactions">Reactions</label>
-								<input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Reactions">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="reactions">Reactions</label>
+									<input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Reactions">
+									<br>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+								<label for="metabolites">Metabolites</label>
+								<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
 								<br>
 							</div>
-						</div>
+						</div>	
+					</form>
+			    </div>
+			    <div id="Statistics" class="tab-pane fade">
+			    </div>
+			    <div id="About" class="tab-pane fade">
+			    	<div class="row">
+						<h1>About</h1>
+					</div>
+					<div class="row">
+						<p>Our website provides a user friendly interface to run virtual experiments using COMETS, and 
+						visualize the results. COMETS stands for computation of microbial ecosystems in time and space, 
+						and is used to simulate metabolic models. Users can select models, reactions, metabolites, and 
+						media to run customized experiments. After the user selects the desired inputs, our site generates 
+						a layout file that can be sent to COMETS. The resulting COMETS output can be uploaded in the upload 
+						tab of our site and visualizations of the results will be shown. All data provided by the Segre Lab. 
+						Website and Database design by Jonathan Rodiger, Maxwell Brown, Andrew Hamel. Boston University 
+						department of Bioinformatics. </p>
 
-						<div class="col">
-							<div class="form-group">
-							<label for="metabolites">Metabolites</label>
-							<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
-							<br>
-						</div>
-					</div>	
-				</form>
-		    </div>
-		</div>			
+					</div>
+			    </div>
+			    <div id="Help" class="tab-pane fade">
+			    </div>
+			</div>
+		</div>
+	</body>
+	</html>		
 	""")
 
 
@@ -203,15 +231,7 @@ def graph():
 	
 	#print(fig) # figure dimensions 
 	print(mpld3.fig_to_html(fig))
-	print("""
-		</div>
-				</div>
-			</form>
-		</div>
-	</body>
-	</html>
-
-		""")
+	
 
 #query = submit_MODEL(model,media)
 #print(execute_query(query))
