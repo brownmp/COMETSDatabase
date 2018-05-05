@@ -26,10 +26,13 @@ def printHead():
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+		<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 		<script>
 			$( "#model" ).autocomplete({
@@ -59,12 +62,22 @@ def printHomepage():
 		</div>
 
 		<div class="container">
-			<ul class="nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#Basic">Basic</a></li>
-				<li><a data-toggle="tab" href="#Advanced">Advanced</a></li>
-				<li><a data-toggle="tab" href="#Statistics">Statistics</a></li>
-				<li><a data-toggle="tab" href="#About">About</a></li>
-				<li><a data-toggle="tab" href="#Help">Help</a></li>
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic" role="tab" aria-controls="basic" aria-selected="true">Basic</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics" role="tab" aria-controls="statistics" aria-selected="false">Statistics</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
+				</li>
 			</ul>
 
 			<div class="tab-content">""")
@@ -76,13 +89,13 @@ def printHomepage():
 
 def printBasic():
 	print("""
-		<div id="Basic" class="tab-pane fade in active">
+		<div id="basic" class="tab-pane active" role="tabpanel" aria-labelledby="basic-tab">
 		    <div class="container-fluid">
 				<div class="row flex-row">
 					<div class="col-md-6">
 						<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
 							<div class="col-8">
-								<h2>Select Model and Media</h2>
+								<h3>Select Model and Media</h3>
 
 								<div class="form-group">
 
@@ -120,7 +133,7 @@ def printBasic():
 
 def printAdvanced():
 	print("""
-		<div id="Advanced" class="tab-pane fade">
+		<div id="advanced" class="tab-pane" role="tabpanel" aria-labelledby="advanced-tab">
 		    <div class="row">
 				<h1>Advanced Search</h1>
 			</div>
@@ -147,9 +160,10 @@ def printAdvanced():
 
 					<div class="col-md-4">
 						<div class="form-group">
-						<label for="metabolites">Metabolites</label>
-						<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
-						<br>
+							<label for="metabolites">Metabolites</label>
+							<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
+							<br>
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -162,13 +176,13 @@ def printAdvanced():
 
 def printStatistics():
 	print("""
-		<div id="Statistics" class="tab-pane fade">
+		<div id="statistics" class="tab-pane" role="tabpanel" aria-labelledby="statistics-tab">
 		</div>
 	""")
 
 def printAbout():
 	print("""
-		<div id="About" class="tab-pane fade">
+		<div id="about" class="tab-pane" role="tabpanel" aria-labelledby="about-tab">
 	    	<div class="row">
 				<h1>About</h1>
 			</div>
@@ -186,7 +200,7 @@ def printAbout():
 
 def printHelp():
 	print(""" 
-				<div id="Help" class="tab-pane fade">
+				<div id="Help" class="tab-pane" role="tabpanel" aria-labelledby="help-tab">
 				</div>
 			</div>
 		</div>
