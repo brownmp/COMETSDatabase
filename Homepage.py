@@ -50,6 +50,18 @@ def printHead():
 				},
 			});
 		</script>
+
+		<script>
+		    function addItem(){
+		        var li = document.createElement("LI");  
+		        var input = document.getElementById("model");
+		        li.innerHTML = input.value;
+		        li.classList.add("list-group-item");
+		        input.value = "";
+
+		        document.getElementById("selectedModels").appendChild(li);
+		    }
+		</script>
 	</head>
 	""")
 
@@ -90,18 +102,25 @@ def printHomepage():
 def printBasic():
 	print("""
 		<div id="basic" class="tab-pane active" role="tabpanel" aria-labelledby="basic-tab">
-		    <div class="container-fluid">
+		    <div class="container-fluid" style="padding-top: 15px;">
 				<div class="row flex-row">
 					<div class="col-md-6">
 						<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
-							<div class="col-8">
-								<h3>Select Model and Media</h3>
+							<div class="col-10">
+								<h2>Select Model and Media</h2>
 
 								<div class="form-group">
 
 								    <label for="model">Model</label>
 
+								    
+
 								    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
+
+								    <div style="padding-top: 20px;">
+								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
+								    	<input type="button" class="btn btn-secondary" value="Clear Models" onClick="window.location.reload()">
+								    </div>
 
 								    <br>
 
@@ -112,20 +131,18 @@ def printBasic():
 										<option value="Basal">Basal</option>
 										<option value="M9">M9</option>
 									</select>
-
-									<br>
-
 								</div>
-
 								<input type="submit" class="btn btn-success" value="Submit" >
 							</div>
-							<div class="col-4">
+							<div class="col-2">
 							</div>
 						</form>
 					</div>
-					<div class="col-md-6">""")
-	graph()
-	print("""
+					<div class="col-md-6">
+						<h2>Selected Models:</h2>
+						<ul id="selectedModels" class="list-group">
+
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -239,6 +256,7 @@ def execute_query(query):
 	
 	# return the results
 	return results
+
 def graph():
 	totalBiomass = pandas.read_table("total_biomass.txt", index_col = 0)
 	fig, (ax,bx) = plt.subplots(2)
