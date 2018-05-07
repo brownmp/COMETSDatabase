@@ -175,7 +175,6 @@ def printAdvanced():
 						<div class="form-group">
 							<label for="reactions">Reactions</label>
 							<input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Reactions">
-							<br>
 						</div>
 					</div>
 
@@ -183,7 +182,6 @@ def printAdvanced():
 						<div class="form-group">
 							<label for="metabolites">Metabolites</label>
 							<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
-							<br>
 						</div>
 					</div>
 				</div>
