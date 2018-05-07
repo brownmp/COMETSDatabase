@@ -17,6 +17,7 @@ print("Content-Type:text/html\n")
 
 #get the form
 form = cgi.FieldStorage()
+modelStatistics = form.getvalue("modelStatistics")
 #model = form.getvalue("model")
 #media = form.getvalue("media")
 
@@ -211,8 +212,32 @@ def printVisualizations():
 def printStatistics():
 	print("""
 		<div id="statistics" class="tab-pane" role="tabpanel" aria-labelledby="statistics-tab">
+		""")
+	print(main_stats())
+
+	print("""
+		<br />
+		<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST">
+			<div class="col-md-4">
+			    <div class="form-group">
+			        <label for = "Models">Models</label>
+			        <input id='modelStatistics' name = 'modelStatistics' class="form-control" type="text" placeholder = "Search model..." value="%s"/>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="col">
+			        <input type="submit" class="btn btn-success" value="Search" >
+			    </div>
+			</div>
+		</form>
+		<br />
+		"""%(modelStatistics))
+	if form: # if form was submitted
+		print(modelStat(modelStatistics))
+	
+	print("""
 		</div>
-	""")
+		""")
 
 def printAbout():
 	print("""
@@ -345,7 +370,58 @@ def graph():
 	
 	#print(fig) # figure dimensions 
 	print(mpld3.fig_to_html(fig))
-	
+#def a finction to create tables in html 
+def html_table(headers,output):
+    #start table
+        #make header
+    head = """
+        <table id="mainStats" class="table">
+        <thead>
+        <tr>"""
+    for i in headers:
+        head+="""<th>%s</th>"""%i
+    head+="</tr></thead>"
+        #make rows
+        #x = row counter
+    row="<tbody><tr>"
+    for i in output:
+        row += """<td>%s</td>"""%(i)        
+    row+="""</tr>"""
+    #concatinate stings
+    table = head + row + """</tbody></table>"""
+    return table
+
+#create a query with all the genes 
+def main_stats():
+    stats = ["MODELS", "METABOLITES", "REACTIONS", "MEDIA"]
+    output = []
+    for i  in stats:
+        query = """select count(*) from %s"""%(i)
+        output.extend(execute_query(query)[0])# use extend becasue is a tuple 
+    return(html_table(stats,output))
+
+def modelStat(model):
+    output = [model]
+    #reactions
+    reactionsQuery = """
+    select count(*)
+    from MODELS join MOD_REACT using (MID)
+    where NAME LIKE "%s";
+    """%(model)
+    #metabolites
+    metabolitesQuery = """
+    select count(*)
+    from MODELS join MOD_REACT using (MID)
+    join REACTIONS using (RID)
+    join STOICH on REACTIONS.RID = STOICH.REACTIONSID
+    join METABOLITES using (METABOLITESID)
+    where MODELS.NAME LIKE "%s";
+    """%(model)
+    output.extend(execute_query(reactionsQuery)[0])
+    output.extend(execute_query(metabolitesQuery)[0])
+    header = ["Model","Reactions", "Metabolites"]
+    table =html_table(header,output)
+    return table
 
 #query = submit_MODEL(model,media)
 #print(execute_query(query))
