@@ -1,0 +1,7 @@
+- [ ] Autocomplete
+- [ ] Statistics
+- [ ] Help Page
+- [ ] Parser: loads tables
+- [ ] Download layout file
+- [ ] Visualizations
+- [ ] Interactions between form and database queries
