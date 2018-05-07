@@ -36,18 +36,18 @@ def printHead():
 
 		<script>
 			$( "#model" ).autocomplete({
-				minLength: 2,
+				
 				source: function(request, response) {
 					$.ajax({
 						type: "POST",
 						url: "https://bioed.bu.edu/cgi-bin/students_18/GroupB/autocomplete.py",
 						data: "tag_part=" + request.term,
-						dataType: "html",
 						success: function(data) {
 							response(data);
 						}
 					});
 				},
+				minLength: 2
 			});
 		</script>
 
@@ -270,7 +270,10 @@ def printHelp():
 								</div>
 							</form>
 						</div>
-						<div class="col-md-6">""")
+						<div class="col-md-6">
+							<div class="row" style="padding-top: 15px;">
+								<h2>Results Visualizations</h2>
+							</div>""")
 	graph()
 	print("""
 						</div>
