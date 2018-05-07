@@ -32,6 +32,7 @@ def Get_Model_World(models,media):
 
 
 def get_LayoutFile(models,media):
+    layout_file = ""
     model_file = []
     model_file.append(models)
     lst = []
@@ -44,51 +45,80 @@ def get_LayoutFile(models,media):
     line = " ".join(lt)
     
     #write model_file to layout file
-    layout = open("layout.txt","w")
-    layout.write(line+"\n")
-    
+    #layout = open("layout.txt","w")
+    #layout.write(line+"\n")
+    layout_file += line+"\n"
     
     #create model_world
     
-    layout.write("\tmodel_world\n\t\tgrid_size 1 1\n\t\tworld_media\n")
+    #layout.write("\tmodel_world\n\t\tgrid_size 1 1\n\t\tworld_media\n")
+    layout_file += "\tmodel_world\n\t\tgrid_size 1 1\n\t\tworld_media\n"
     
     y = Get_Model_World(models,media)
     for i in y:
-        layout.write("\t\t"+i+"\n")
+        #layout.write("\t\t"+i+"\n")
+        layout_file += "\t\t"+i+"\n"
 
     #diffusion_constants
-    layout.write("\t//")
-    layout.write("\n\tdiffusion_constants 1.000000e-06\n")
+    #layout.write("\t//")
+    layout_file += "\t//"
+    #layout.write("\n\tdiffusion_constants 1.000000e-06\n")
+    layout_file += "\n\tdiffusion_constants 1.000000e-06\n"
     
     diff = []
     for j in range(len(y)):
         diff.append("%i 0"%(j+1))
 
     for k in range(len(diff)):
-        layout.write("\t\t" + diff[k]+"\n") 
+        #layout.write("\t\t" + diff[k]+"\n") 
+        layout_file += "\t\t" + diff[k]+"\n"
     
     #media
-    layout.write("\n\t//\n\tmedia\n\t//")
+    #layout.write("\n\t//\n\tmedia\n\t//")
+    layout_file += "\n\t//\n\tmedia\n\t//"
     
     #media_refresh
-    layout.write("\n\tmedia_refresh ")
+    #layout.write("\n\tmedia_refresh ")
+    layout_file += "\n\tmedia_refresh "
+    
     g = ["0"]*len(diff)
-    layout.write(",".join(g).replace(","," "))
+    #layout.write(",".join(g).replace(","," "))
+    layout_file += ",".join(g).replace(","," ")
 
     #static_media
-    layout.write("\n\t//\n\t")
-    layout.write("static_media")
+   # layout.write("\n\t//\n\t")
+    layout_file += "\n\t//\n\t"
+    
+    #layout.write("static_media")
+    layout_file += "static_media"
+    
     h = ["0"]*len(diff)*2
-    layout.write(",".join(h).replace(","," "))
-    layout.write("\n\t//\n\tbarrier\n\t//\n//")
+    #layout.write(",".join(h).replace(","," "))
+    layout_file += ",".join(h).replace(","," ")
+    
+    #layout.write("\n\t//\n\tbarrier\n\t//\n//")
+    layout_file += "\n\t//\n\tbarrier\n\t//\n//"
+    
     #write intitial population
-    layout.write("\ninitial_pop\n")
-    layout.write("\t")
-    layout.write("0 0 1.000000e-09 1.000000e-09")
-    layout.write("\n//")
+    #layout.write("\ninitial_pop\n")
+    layout_file += "\ninitial_pop\n"
+    
+    #layout.write("\t")
+    layout_file += "\t"
+    
+    #layout.write("0 0 1.000000e-09 1.000000e-09")
+    layout_file += "0 0 1.000000e-09 1.000000e-09"
+    
+    #layout.write("\n//")
+    layout_file += "\n//"
+    
     #write parameters to layout file
     layout.write("\n")
-    layout.write("""\tparameters
+    #layout_file += "\n"
+    
+    
+    
+    layout_file += """\tparameters
 \tmaxCycles = 500
 \tpixelScale = 5
 \tsaveslideshow = false
@@ -128,9 +158,14 @@ def get_LayoutFile(models,media):
 \tshowCycleCount = true
 \tdefaultVmax = 10
 \tbiomassMotionStyle = Diffusion (Crank-Nicolson)
-\texchangeStyle = Standard FBA""")
-    layout.write("\n//")
-    layout.close()
+\texchangeStyle = Standard FBA"""
+    
+    #layout.write("\n//")
+    layout_file += "\n//"
+    
+    #layout.close()
+    
+    return layout_file
 
 u = get_LayoutFile("Ruminococcus_torques_ATCC_27756","Basal")
 print(u)
