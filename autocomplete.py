@@ -11,13 +11,14 @@ userInput = form.getvalue('model')
 # generate query
 query = 'SELECT NAME FROM MODELS WHERE NAME LIKE "' + userInput +'%";'
 
-# connect to the database
-connection = pymysql.connect(host="bioed.bu.edu",db="groupB",user="",passwd="")
+# login to the database and run query
+with open('login.txt') as f:
+	lines=f.readlines()
+	username=lines[0].strip()
+	password=lines[1].strip()
 
-# get cursor
+connection = pymysql.connect(host="bioed.bu.edu",db="groupB",user=username,passwd=password)
 cursor = connection.cursor()
-
-# run query
 cursor.execute(query)
 
 # fetch results 

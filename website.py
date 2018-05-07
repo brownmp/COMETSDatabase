@@ -296,22 +296,27 @@ def submit_MODEL(model,media):
 
 
 def execute_query(query):
+	with open('login.txt') as f:
+		lines=f.readlines()
+		username=lines[0].strip()
+		password=lines[1].strip()
+
 	# connect to the database
-	connection = pymysql.connect(host="bioed.bu.edu",db="groupB",user="ahamel19",passwd="Sparticus6")
+	connection = pymysql.connect(host="bioed.bu.edu",db="groupB",user=username,passwd=password)
 
 	# get cursor
 	cursor = connection.cursor()
-	
+
 	# run query
 	cursor.execute(query)
-	
+
 	# fetch results 
 	results = cursor.fetchall()
-	
+
 	# close the connection
 	cursor.close()
 	connection.close()
-	
+
 	# return the results
 	return results
 

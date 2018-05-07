@@ -1,9 +1,17 @@
 import pymysql
 
 def Get_Model_World(models,media):
-    model_world = []
-    connection = pymysql.connect(host = "bioed.bu.edu", db = "groupB", user = "ahamel19", passwd = "Sparticus6")
+    # read login info
+    with open('login.txt') as f:
+        lines=f.readlines()
+        username=lines[0].strip()
+        password=lines[1].strip()
+
+    # connect to the database
+    connection = pymysql.connect(host="bioed.bu.edu",db="groupB",user=username,passwd=password)
     cursor = connection.cursor()
+
+    model_world = []
     media_query = """SELECT MEDIAID FROM MEDIA WHERE MEDIA.NAME = '%s'"""%(media)
     cursor.execute(media_query)
     media_query_results = cursor.fetchone()
