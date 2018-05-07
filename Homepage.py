@@ -82,6 +82,9 @@ def printHomepage():
 					<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" id="visualizations-tab" data-toggle="tab" href="#visualizations" role="tab" aria-controls="visualizations" aria-selected="false">Visualizations</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics" role="tab" aria-controls="statistics" aria-selected="false">Statistics</a>
 				</li>
 				<li class="nav-item">
@@ -95,6 +98,7 @@ def printHomepage():
 			<div class="tab-content">""")
 	printBasic()
 	printAdvanced()
+	printVisualizations()
 	printStatistics()
 	printAbout()
 	printHelp()
@@ -151,8 +155,8 @@ def printBasic():
 def printAdvanced():
 	print("""
 		<div id="advanced" class="tab-pane" role="tabpanel" aria-labelledby="advanced-tab">
-		    <div class="row">
-				<h1>Advanced Search</h1>
+		    <div class="row" style="padding-top: 15px;">
+				<h2>Advanced Search</h2>
 			</div>
 			<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" method="POST">
 				<div class="row">
@@ -191,6 +195,20 @@ def printAdvanced():
 			</form>
 	    </div>""")
 
+def printVisualizations():
+	print("""
+		<div id="visualizations" class="tab-pane" role="tabpanel" aria-labelledby="visualizations-tab">
+			<div class="row" style="padding-top: 15px;">
+				<h2>Visualizations</h2>
+			</div>
+		""")
+
+	graph()
+
+	print("""
+		</div>
+		""")
+
 def printStatistics():
 	print("""
 		<div id="statistics" class="tab-pane" role="tabpanel" aria-labelledby="statistics-tab">
@@ -200,8 +218,8 @@ def printStatistics():
 def printAbout():
 	print("""
 		<div id="about" class="tab-pane" role="tabpanel" aria-labelledby="about-tab">
-	    	<div class="row">
-				<h1>About</h1>
+	    	<div class="row" style="padding-top: 15px;">
+				<h2>About</h2>
 			</div>
 			<div class="row">
 				<p>Our website provides a user friendly interface to run virtual experiments using COMETS, and 
@@ -217,12 +235,52 @@ def printAbout():
 
 def printHelp():
 	print(""" 
-				<div id="Help" class="tab-pane" role="tabpanel" aria-labelledby="help-tab">
+			<div id="help" class="tab-pane" role="tabpanel" aria-labelledby="help-tab">
+			    <div class="container-fluid" style="padding-top: 15px;">
+					<div class="row flex-row">
+						<div class="col-md-6">
+							<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
+								<div class="col-10">
+									<h2>Select Model and Media</h2>
+
+									<div class="form-group">
+
+									    <label for="model">Model</label>
+
+									    
+
+									    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
+
+									    <div style="padding-top: 20px;">
+									    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
+									    	<input type="button" class="btn btn-secondary" value="Clear Models" onClick="window.location.reload()">
+									    </div>
+
+									    <br>
+
+									    <label for="media">Media</label>
+
+									    <select class="form-control">
+									    	<option value="">Choose Media</option>
+											<option value="Basal">Basal</option>
+											<option value="M9">M9</option>
+										</select>
+									</div>
+									<input type="submit" class="btn btn-success" value="Submit" >
+								</div>
+								<div class="col-2">
+								</div>
+							</form>
+						</div>
+						<div class="col-md-6">""")
+	graph()
+	print("""
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</body>
-	</html>""")
+		</body>
+		</html>""")
 
 def submit_MODEL(model,media):
 	query = ""
