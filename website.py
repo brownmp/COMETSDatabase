@@ -124,6 +124,7 @@ def printBasic():
 								    <div style="padding-top: 20px;">
 								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
 								    	<input type="button" class="btn btn-secondary" value="Clear Models" onClick="window.location.reload()">
+								    	<a href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/printAllModels.py" class="btn btn-secondary" target="_blank">View All Models</a>
 								    </div>
 
 								    <br>
