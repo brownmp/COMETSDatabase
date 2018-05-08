@@ -1,15 +1,17 @@
+#!/usr/bin/python3
 import sys
 import pymysql
-import cgi
-import cgitb
-cgitb.enable()
+import json
 
-form = cgi.FieldStorage()
-userInput = form.getvalue('model')
+data = sys.stdin.read()
+myjson = json.loads(data)
 
+userInput = myjson['input']
 
 # generate query
 query = 'SELECT NAME FROM MODELS WHERE NAME LIKE "' + userInput +'%";'
+
+#query = 'SELECT NAME FROM MODELS WHERE NAME LIKE "Clo%";'
 
 # login to the database and run query
 with open('login.txt') as f:
@@ -33,5 +35,5 @@ for val in results:
 cursor.close()
 connection.close()
 
-print("Content-Type:text/html\n")
-print(names)
+print('Content-Type: application/json\n\n')
+print(json.dumps(names))

@@ -37,20 +37,25 @@ def printHead():
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 		<script>
-			$( "#model" ).autocomplete({
+			$(function() {
+				var input = document.getElementById("model");
 				
-				source: function(request, response) {
-					$.ajax({
-						type: "POST",
-						url: "https://bioed.bu.edu/cgi-bin/students_18/GroupB/autocomplete.py",
-						data: "tag_part=" + request.term,
-						success: function(data) {
-							response(data);
-						}
-					});
-				},
-				minLength: 2
-			});
+				$( "#model" ).autocomplete({
+					source: function(request, response) {
+						$.ajax({
+							type: "POST",
+							url: "autocomplete.py",
+							data: JSON.stringify({'input' : input.value}),
+							datatype: "application/json",
+							success: function(data) {
+								response(data)
+							}
+						});
+					},
+				});
+			})
+
+
 		</script>
 
 		<script>
@@ -71,7 +76,7 @@ def printHomepage():
 	print("""
 	<body>
 		<div class="jumbotron text-center">
-			<h1>Biological Databases Project</h1>
+			<h1>COMETS Database</h1>
 			<p>Virtual experiments using COMETS!</p>
 		</div>
 
