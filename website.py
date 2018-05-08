@@ -326,10 +326,6 @@ def printStatistics():
 		<img src="">
 		<p></p>
 	</div>
-	<br />
-	<br />
-	<br />
-	<br />
 	""")
 
 def printAbout():
