@@ -69,8 +69,7 @@ def printHead():
 		        document.getElementById("selectedModels").appendChild(li);
 		    }
 		</script>
-	</head>
-""")
+	</head>""")
 
 def printHomepage():
 	print("""
@@ -116,7 +115,7 @@ def printBasic():
 		    <div class="container-fluid" style="padding-top: 15px;">
 				<div class="row flex-row">
 					<div class="col-md-6">
-						<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
+						<form id="myForm" name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/ahamel19/search_upload.py" method="POST" enctype="multipart/form-data">
 							<div class="col-10">
 								<h2>Select Model and Media</h2>
 
@@ -124,9 +123,7 @@ def printBasic():
 
 								    <label for="model">Model</label>
 
-								    
-
-								    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
+								    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models" value="">
 
 								    <div style="padding-top: 20px;">
 								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
@@ -138,7 +135,7 @@ def printBasic():
 
 								    <label for="media">Media</label>
 
-								    <select class="form-control">
+								    <select id="media" name="media" class="form-control" form="myForm">
 								    	<option value="">Choose Media</option>
 										<option value="Basal">Basal</option>
 										<option value="M9">M9</option>
