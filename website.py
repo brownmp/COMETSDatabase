@@ -25,6 +25,7 @@ def printHead():
 	print("""
 	<html>
 	<head>
+		<title>COMETS Database</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -64,7 +65,7 @@ def printHead():
 		    }
 		</script>
 	</head>
-	""")
+""")
 
 def printHomepage():
 	print("""
@@ -152,7 +153,24 @@ def printBasic():
 					</div>
 				</div>
 			</div>
-		</div>""")
+		</div>
+	<style>
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background-color: red;
+			color: white;
+			text-align: center;
+		}
+	</style>
+	<div class="footer">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+		<img src="">
+		<p></p>
+	</div>
+	""")
 
 def printAdvanced():
 	print("""
@@ -193,7 +211,24 @@ def printAdvanced():
 					</div>
 				</div>
 			</form>
-	    </div>""")
+	    </div>
+	<style>
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background-color: red;
+			color: white;
+			text-align: center;
+		}
+	</style>
+	<div class="footer">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+		<img src="">
+		<p></p>
+	</div>
+	""")
 
 def printVisualizations():
 	print("""
@@ -207,7 +242,23 @@ def printVisualizations():
 
 	print("""
 		</div>
-		""")
+	<style>
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background-color: red;
+			color: white;
+			text-align: center;
+		}
+	</style>
+	<div class="footer">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+		<img src="">
+		<p></p>
+	</div>
+	""")
 
 def printStatistics():
 	print("""
@@ -244,7 +295,23 @@ def printStatistics():
 	
 	print("""
 		</div>
-		""")
+	<style>
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background-color: red;
+			color: white;
+			text-align: center;
+		}
+	</style>
+	<div class="footer">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+		<img src="">
+		<p></p>
+	</div>
+	""")
 
 def printAbout():
 	print("""
@@ -262,6 +329,27 @@ def printAbout():
 				Website and Database design by Jonathan Rodiger, Maxwell Brown, Andrew Hamel. Boston University 
 				department of Bioinformatics. </p>
 			</div>
+			<div class = "row">
+				<p>
+				<a href = "http://www.bu.edu/segrelab/comets/">COMETS Segre Lab at Boston University</a>
+				</p>
+			</div>
+		<style>
+			.footer {
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				background-color: red;
+				color: white;
+				text-align: center;
+			}
+			</style>
+		<div class="footer">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+		<img src="">
+		<p></p>
+		</div>
 	    </div>""")
 
 def printHelp():
@@ -314,6 +402,22 @@ def printHelp():
 				</div>
 			</div>
 		</body>
+	<style>
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background-color: red;
+			color: white;
+			text-align: center;
+		}
+	</style>
+	<div class="footer">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+		<img src="">
+		<p></p>
+	</div>
 		</html>""")
 
 def submit_MODEL(model,media):
