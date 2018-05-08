@@ -211,13 +211,20 @@ def printVisualizations():
 
 def printStatistics():
 	print("""
+		<br />
 		<div id="statistics" class="tab-pane" role="tabpanel" aria-labelledby="statistics-tab">
+		<div class="row" style="padding-top: 15px;">
+			<h2>Database Statistics</h2>
+		</div>
+		<br />
 		""")
 	print(main_stats())
 
 	print("""
 		<br />
 		<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST">
+			<h4>Search models to see associated reactions and metabolites</h4>
+		<br />
 			<div class="col-md-4">
 			    <div class="form-group">
 			        <label for = "Models">Models</label>
