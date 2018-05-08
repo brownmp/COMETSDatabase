@@ -401,11 +401,16 @@ def html_table(headers,output):
 #create a query with all the genes 
 def main_stats():
     stats = ["MODELS", "METABOLITES", "REACTIONS", "MEDIA"]
+    mets = ["KEGG", "PUBCHEM", "INCHI"]
+    header = ["MODELS", "METABOLITES", "REACTIONS", "MEDIA", "KEGG", "PUBCHEM", "INCHI"]
     output = []
     for i  in stats:
         query = """select count(*) from %s"""%(i)
         output.extend(execute_query(query)[0])# use extend becasue is a tuple 
-    return(html_table(stats,output))
+    for i  in mets:
+        query = """select count(*) from METABOLITES where %s != 'NULL'; """%(i)
+        output.extend(execute_query(query)[0])
+    return(html_table(header,output))
 
 def modelStat(model):
     output = [model]
@@ -424,9 +429,27 @@ def modelStat(model):
     join METABOLITES using (METABOLITESID)
     where MODELS.NAME LIKE "%s";
     """%(model)
+    extmetabolitesQuery = """
+    select count(*)
+    from MODELS join MOD_REACT using (MID)
+    join REACTIONS using (RID)
+    join STOICH on REACTIONS.RID = STOICH.REACTIONSID
+    join METABOLITES using (METABOLITESID)
+    where MODELS.NAME LIKE "%s" and COMPARTMENT = "c";
+    """%(model)
+    intmetabolitesQuery = """
+    select count(*)
+    from MODELS join MOD_REACT using (MID)
+    join REACTIONS using (RID)
+    join STOICH on REACTIONS.RID = STOICH.REACTIONSID
+    join METABOLITES using (METABOLITESID)
+    where MODELS.NAME LIKE "%s" and COMPARTMENT = "e";
+    """%(model)
     output.extend(execute_query(reactionsQuery)[0])
     output.extend(execute_query(metabolitesQuery)[0])
-    header = ["Model","Reactions", "Metabolites"]
+    output.extend(execute_query(extmetabolitesQuery)[0])
+    output.extend(execute_query(intmetabolitesQuery)[0])
+    header = ["Model","Reactions", "Total Metabolites", "Internal Metabolites", "External Metabolites"]
     table =html_table(header,output)
     return table
 
