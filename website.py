@@ -262,39 +262,54 @@ def printVisualizations():
 
 def printStatistics():
 	print("""
-		<br />
+		
 		<div id="statistics" class="tab-pane" role="tabpanel" aria-labelledby="statistics-tab">
-		<div class="row" style="padding-top: 15px;">
-			<h2>Database Statistics</h2>
-		</div>
-		<br />
+			<br />
+			<div class="row" style="padding-top: 15px;">
+				<h2>Database Statistics</h2>
+			</div>
+			<br />
+			<div class = "row">
 		""")
 	print(main_stats())
 
 	print("""
-		<br />
-		<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST">
-			<h4>Search models to see associated reactions and metabolites</h4>
-		<br />
-			<div class="col-md-4">
-			    <div class="form-group">
-			        <label for = "Models">Models</label>
-			        <input id='modelStatistics' name = 'modelStatistics' class="form-control" type="text" placeholder = "Search model..." value="%s"/>
-			    </div>
 			</div>
-			<div class="row">
-			    <div class="col">
-			        <input type="submit" class="btn btn-success" value="Search" >
-			    </div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<div class = "row">
+				<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST">
+					<h2>Search models to see associated reactions and metabolites</h2>
+					<br />
+					<div class="col-6">
+						<div class="form-group">					
+					    	<label for = "Models">Models</label>
+					    	<input id='modelStatistics' name = 'modelStatistics' class="form-control" type="text" placeholder = "Search model..." value="%s"/>
+					   	</div>
+					</div>
+					<div class="col-1">
+					   	<input type="submit" class="btn btn-success" value="Search" >
+					</div>
+				</form>
 			</div>
-		</form>
-		<br />
-		"""%(modelStatistics))
+			"""%(modelStatistics))
 	if form: # if form was submitted
 		print(modelStat(modelStatistics))
+	print("""
+			<br />
+			<br />
+			<br />
+			<br />
+			<div>
+				<h2>Distribution Of Metabolites Per Model</h2>
+				<img src="https://bioed.bu.edu/students_18/GroupB/density.png" />
+			</div>
+		</div>
+		""")
 	
 	print("""
-		</div>
 	<style>
 		.footer {
 			position: fixed;
@@ -311,6 +326,10 @@ def printStatistics():
 		<img src="">
 		<p></p>
 	</div>
+	<br />
+	<br />
+	<br />
+	<br />
 	""")
 
 def printAbout():
