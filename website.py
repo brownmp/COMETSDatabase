@@ -279,6 +279,8 @@ def printStatistics():
 			<br />
 			<br />
 			<br />
+			<br />
+			<br />
 			<div class = "row">
 				<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST">
 					<h2>Search models to see associated reactions and metabolites</h2>
@@ -298,6 +300,8 @@ def printStatistics():
 	if form: # if form was submitted
 		print(modelStat(modelStatistics))
 	print("""
+			<br />
+			<br />
 			<br />
 			<br />
 			<br />
@@ -326,6 +330,12 @@ def printStatistics():
 		<img src="">
 		<p></p>
 	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
 	""")
 
 def printAbout():
@@ -526,22 +536,22 @@ def main_stats():
     for i  in stats:
         query = """select count(*) from %s"""%(i)
         output.extend(execute_query(query)[0])# use extend becasue is a tuple 
-    for i  in mets:
-        query = """select count(*) from METABOLITES where %s != 'NULL'; """%(i)
-        output.extend(execute_query(query)[0])
+    for i in mets:
+    	query = """select count(*) from METABOLITES where %s != 'NULL'; """%(i)
+    	output.extend(execute_query(query)[0])
     return(html_table(header,output))
 
 def modelStat(model):
     output = [model]
     #reactions
     reactionsQuery = """
-    select count(*)
+    select count(distinct RID)
     from MODELS join MOD_REACT using (MID)
     where NAME LIKE "%s";
     """%(model)
     #metabolites
     metabolitesQuery = """
-    select count(*)
+    select count(distinct METABOLITESID)
     from MODELS join MOD_REACT using (MID)
     join REACTIONS using (RID)
     join STOICH on REACTIONS.RID = STOICH.REACTIONSID
@@ -549,7 +559,7 @@ def modelStat(model):
     where MODELS.NAME LIKE "%s";
     """%(model)
     extmetabolitesQuery = """
-    select count(*)
+    select count(distinct METABOLITESID)
     from MODELS join MOD_REACT using (MID)
     join REACTIONS using (RID)
     join STOICH on REACTIONS.RID = STOICH.REACTIONSID
@@ -557,7 +567,7 @@ def modelStat(model):
     where MODELS.NAME LIKE "%s" and COMPARTMENT = "c";
     """%(model)
     intmetabolitesQuery = """
-    select count(*)
+    select count(distinct METABOLITESID)
     from MODELS join MOD_REACT using (MID)
     join REACTIONS using (RID)
     join STOICH on REACTIONS.RID = STOICH.REACTIONSID
