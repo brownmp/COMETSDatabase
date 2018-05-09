@@ -255,7 +255,7 @@ def printAdvanced():
 		    <div class="row" style="padding-top: 15px;">
 				<h2>Advanced Search</h2>
 			</div>
-			<form id="myForm" name="myForm" action="LayoutGeneration.py" method="POST" enctype="multipart/form-data">
+			<form id="myForm" name="myForm" action="AdvancedLayoutGeneration.py" method="POST" enctype="multipart/form-data">
 		    	<div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
 						<div class="col-md-6">
@@ -323,12 +323,26 @@ def printAdvanced():
 def printVisualizations():
 	print("""
 		<div id="visualizations" class="tab-pane" role="tabpanel" aria-labelledby="visualizations-tab">
-			<div class="row" style="padding-top: 15px;">
-				<h2>Visualizations</h2>
-			</div>
-		""")
+					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/testpage.py" method="POST" enctype="multipart/form-data">
+					<div class="row" style="padding-top: 15px;">
+						<h2>Visualizations</h2>
 
-	graph()
+							<div class = "row">
+								<div class="form-group">
+									<h4>Upload </h4>
+								
+									<input type="file" name = "file_upload" size=1000 accept=".txt">
+									<input type = "submit" value = "Submit">
+								</div>
+							</div>
+						</div>	
+					</form>
+				""")
+			file = form.getvalue("file_upload")
+			#uploaded_file = form["file_upload"]
+			if file:
+				read = pandas.read_table(form["file_upload"].file, index_col = 0, sep=("\t"))
+				print(loadFile(read))
 
 	print("""
 		</div>
@@ -603,6 +617,27 @@ def modelStat(model):
     header = ["Model","Reactions", "Total Metabolites", "Internal Metabolites", "External Metabolites"]
     table =html_table(header,output)
     return table
+
+def loadFile(total_biomass):
+	fig, (ax,bx) = plt.subplots(2)
+
+	y = total_biomass.mean(axis=1)
+	x = list(range(len(y))) 
+	ax.set(xlabel="Time (t)", ylabel='Biomass f(t)',
+		title='Biomass Over Time')
+	ax.grid()
+	ax.plot(x,y)
+
+	# plot the rate of growth
+	rate = np.gradient(np.asarray(y)) # get the rate 
+	bx.set(xlabel="Time (t)", ylabel='Biomass f\'(t)',
+		title='Growth Rate')
+	bx.grid()
+	bx.plot(x,rate)
+	plt.subplots_adjust(hspace=.5, wspace=1 )
+	
+	#print(fig) # figure dimensions 
+	print(mpld3.fig_to_html(fig))
 
 #query = submit_MODEL(model,media)
 #print(execute_query(query))
