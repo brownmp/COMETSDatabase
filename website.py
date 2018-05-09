@@ -507,6 +507,22 @@ def printHelp():
 					<a href = "http://www.bu.edu/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379 ismap></a>
 				</div>
 			</div>
+			<script>
+				$('#myTab a').on('click', function (e) {
+					e.preventDefault()
+					$(this).tab('show')
+				})
+
+				$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+				    var id = $(e.target).attr("href");
+				    localStorage.setItem('selectedTab', id)
+				});
+
+				var selectedTab = localStorage.getItem('selectedTab');
+				if (selectedTab != null) {
+				    $('#myTab a[href="' + selectedTab + '"]').tab('show')
+				}
+			</script>
 		</body>
 		</html>""")
 
