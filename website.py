@@ -296,14 +296,7 @@ def printAdvanced():
 								    </div>
 
 								    <br>
-
-								    <label for="advancedMedia">Media</label>
-
-								    <select id="advancedMedia" name="advancedMedia" class="form-control" form="advForm">
-								    	<option value="">Choose Media</option>
-										<option value="Basal">Basal</option>
-										<option value="M9">M9</option>
-									</select>
+								    
 								</div>
 								<input type="submit" class="btn btn-success" value="Submit">
 							</div>
