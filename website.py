@@ -425,6 +425,11 @@ def printAbout():
 				<a href = "http://www.bu.edu/segrelab/comets/">COMETS Segre Lab at Boston University</a>
 				</p>
 			</div>
+			<div class = "row">
+				<p>
+				<a href = "http://komodo.modelseed.org/">Media Recipes</a>
+				</p>
+			</div>
 	    </div>""")
 
 def printHelp():
