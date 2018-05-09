@@ -478,11 +478,21 @@ def printHelp():
 								and see the number of Reactions, and internal and external metabolites associated with it. The third portion
 								of the tab is summary statistics about the the distribution of properties in the database. 
 								</p>
+							<h3>Layout File</h3>
+								<p>Layout File:
+									There are several parameters within the layout file. The model_file will denote what model species were chosen. 
+									Model_world contains the media conditions.  The metabolites for the model with their CPD identity and concentration 
+									are shown. The diffusion constant is set to the default parameter. Media_Refresh is how often the media are fed. They are 
+									set to zero.  Static_Media indicates which metabolites should be kept constant. All are set to zero. Initial_Population 
+									denotes the initial population for the model species. The parameters are set to the default value. 
+
+								</p>
 						</div>
 						<div class = "col-6">
 							<img src="https://bioed.bu.edu/images/students_18/GroupB/image1.png" class = "img-fluid"/>
 							<img src="https://bioed.bu.edu/images/students_18/GroupB/image2.png" class = "img-fluid"/>
 							<img src="https://bioed.bu.edu/images/students_18/GroupB/image4.png" class = "img-fluid"/>
+							<img src="https://bioed.bu.edu/images/students_18/GroupB/visual.png" class = "img-fluid"/>
 							<img src="https://bioed.bu.edu/images/students_18/GroupB/image3.png" class = "img-fluid"/>
 						</div>
 
