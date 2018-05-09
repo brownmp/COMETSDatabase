@@ -412,7 +412,8 @@ def printAbout():
 				<h2>About</h2>
 			</div>
 			<div class="row">
-				<p>Our website provides a user friendly interface to run virtual experiments using COMETS, and 
+				<p>This project was developed at Boston University as part of BF768, Spring 2018, G. Benson 
+				instructor. Our website provides a user friendly interface to run virtual experiments using COMETS, and 
 				visualize the results. COMETS stands for computation of microbial ecosystems in time and space, 
 				and is used to simulate metabolic models. Users can select models, reactions, metabolites, and 
 				media to run customized experiments. After the user selects the desired inputs, our site generates 
