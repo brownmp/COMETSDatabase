@@ -54,21 +54,76 @@ def printHead():
 					},
 				});
 			})
-
-
 		</script>
 
 		<script>
 		    function addItem(){
 		        var li = document.createElement("LI");  
 		        var input = document.getElementById("model");
+		        var models = document.getElementById("models");
+		        
+		        if (models != null){
+				    models.value = input.value + ", " + models.value
+				}
+		        else {
+		        	models.value = input.value
+		        }
+
 		        li.innerHTML = input.value;
 		        li.classList.add("list-group-item");
 		        input.value = "";
 
 		        document.getElementById("selectedModels").appendChild(li);
 		    }
+		    function addRxn(){
+		        var li = document.createElement("LI");  
+		        var input = document.getElementById("reactions");
+		        var rxns = document.getElementById("rxns");
+		        
+		        if (rxns != null){
+				    rxns.value = input.value + ", " + rxns.value
+				}
+		        else {
+		        	rxns.value = rxns.value
+		        }
+
+		        li.innerHTML = input.value;
+		        li.classList.add("list-group-item");
+		        input.value = "";
+
+		        document.getElementById("selectedReactions").appendChild(li);
+		    }
+		    function addMet(){
+		        var li = document.createElement("LI");  
+		        var input = document.getElementById("metabolites");
+		        var mets = document.getElementById("mets");
+		        
+		        if (mets != null){
+				    mets.value = input.value + ", " + mets.value
+				}
+		        else {
+		        	mets.value = mets.value
+		        }
+
+		        li.innerHTML = input.value;
+		        li.classList.add("list-group-item");
+		        input.value = "";
+
+		        document.getElementById("selectedMets").appendChild(li);
+		    }
 		</script>
+
+		<style>
+			.footer {
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				background-color: red;
+				color: white;
+				text-align: center;
+			}
+		</style>
 	</head>""")
 
 def printHomepage():
@@ -79,7 +134,7 @@ def printHomepage():
 			<p>Virtual experiments using COMETS!</p>
 		</div>
 
-		<div class="container">
+		<div class="container" style="margin-bottom: 72.379">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item">
 					<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic" role="tab" aria-controls="basic" aria-selected="true">Basic</a>
@@ -112,10 +167,10 @@ def printHomepage():
 def printBasic():
 	print("""
 		<div id="basic" class="tab-pane active" role="tabpanel" aria-labelledby="basic-tab">
-		    <div class="container-fluid" style="padding-top: 15px;">
-				<div class="row flex-row">
-					<div class="col-md-6">
-						<form id="myForm" name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/ahamel19/search_upload.py" method="POST" enctype="multipart/form-data">
+		    <form id="myForm" name="myForm" action="LayoutGeneration.py" method="POST" enctype="multipart/form-data">
+		    	<div class="container-fluid" style="padding-top: 15px;">
+					<div class="row flex-row">
+						<div class="col-md-6">
 							<div class="col-10">
 								<h2>Select Model and Media</h2>
 
@@ -124,6 +179,8 @@ def printBasic():
 								    <label for="model">Model</label>
 
 								    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models" value="">
+
+								    <input type="hidden" id="models" name="models" value="">
 
 								    <div style="padding-top: 20px;">
 								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
@@ -141,38 +198,22 @@ def printBasic():
 										<option value="M9">M9</option>
 									</select>
 								</div>
-								<input type="submit" class="btn btn-success" value="Submit" >
+								<input type="submit" class="btn btn-success" value="Submit">
 							</div>
 							<div class="col-2">
 							</div>
-						</form>
-					</div>
-					<div class="col-md-6">
-						<h2>Selected Models:</h2>
-						<ul id="selectedModels" class="list-group">
+						</div>
+						<div class="col-md-6">
+							<h2>Selected Models:</h2>
+							<ul id="selectedModels" name="selectedModels" class="list-group">
 
-						</ul>
+							</ul>
+						</div>
+				
 					</div>
 				</div>
-			</div>
-		</div>
-	<style>
-		.footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			background-color: red;
-			color: white;
-			text-align: center;
-		}
-	</style>
-	<div class="footer">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
-		<img src="">
-		<p></p>
-	</div>
-	""")
+			</form>
+		</div>""")
 
 def printAdvanced():
 	print("""
@@ -180,57 +221,72 @@ def printAdvanced():
 		    <div class="row" style="padding-top: 15px;">
 				<h2>Advanced Search</h2>
 			</div>
-			<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Advanced.py" method="POST">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-						    <label for="media">Media</label>
-						    <select class="form-control">
-						    	<option value="">Choose Media</option>
-								<option value="Basal">Basal</option>
-								<option value="M9">M9</option>
-							</select>
-						</div>
-					</div>
+			<form id="myForm" name="myForm" action="LayoutGeneration.py" method="POST" enctype="multipart/form-data">
+		    	<div class="container-fluid" style="padding-top: 15px;">
+					<div class="row flex-row">
+						<div class="col-md-6">
+							<div class="col-10">
+								<h2>Select Model and Media</h2>
 
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="reactions">Reactions</label>
-							<input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Reactions">
-						</div>
-					</div>
+								<div class="form-group">
 
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="metabolites">Metabolites</label>
-							<input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites">
+								    <label for="model">Reactions</label>
+
+								    <input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Models" value="">
+
+								    <input type="hidden" id="rxns" name="rxns" value="">
+
+								    <div style="padding-top: 20px;">
+								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Reactions" onclick="addRxn()">
+								    	<input type="button" class="btn btn-secondary" value="Clear Selected" onClick="window.location.reload()">
+								    </div>
+
+								    <br>
+
+								    <label for="model">Metabolites</label>
+
+								    <input id="metabolites" class="form-control" type="text" name="metabolites" placeholder="Choose Metabolites" value="">
+
+								    <input type="hidden" id="mets" name="mets" value="">
+
+								    <div style="padding-top: 20px;">
+								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Reactions" onclick="addMet()">
+								    	<input type="button" class="btn btn-secondary" value="Clear Selected" onClick="window.location.reload()">
+								    </div>
+
+								    <br>
+
+								    <label for="media">Media</label>
+
+								    <select id="media" name="media" class="form-control" form="myForm">
+								    	<option value="">Choose Media</option>
+										<option value="Basal">Basal</option>
+										<option value="M9">M9</option>
+									</select>
+								</div>
+								<input type="submit" class="btn btn-success" value="Submit">
+							</div>
+							<div class="col-2">
+							</div>
+						
 						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<input type="submit" class="btn btn-success" value="Submit" >
+						<div class="col-md-6">
+							<h2>Selected Reactions:</h2>
+							<ul id="selectedReactions" name="selectedReactions" class="list-group">
+
+							</ul>
+
+							<br>
+
+							<h2>Selected Metabolites:</h2>
+							<ul id="selectedMets" name="selectedMets" class="list-group">
+
+							</ul>
+						</div>
 					</div>
 				</div>
 			</form>
-	    </div>
-	<style>
-		.footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			background-color: red;
-			color: white;
-			text-align: center;
-		}
-	</style>
-	<div class="footer">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
-		<img src="">
-		<p></p>
-	</div>
-	""")
+	    </div>""")
 
 def printVisualizations():
 	print("""
@@ -244,22 +300,6 @@ def printVisualizations():
 
 	print("""
 		</div>
-	<style>
-		.footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			background-color: red;
-			color: white;
-			text-align: center;
-		}
-	</style>
-	<div class="footer">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
-		<img src="">
-		<p></p>
-	</div>
 	""")
 
 def printStatistics():
@@ -277,7 +317,7 @@ def printStatistics():
 
 	print("""
 			</div>
-			<br />
+			<br>
 			<br />
 			<br />
 			<br />
@@ -314,25 +354,6 @@ def printStatistics():
 			</div>
 		</div>
 		""")
-	
-	print("""
-	<style>
-		.footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			background-color: red;
-			color: white;
-			text-align: center;
-		}
-	</style>
-	<div class="footer">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
-		<img src="">
-		<p></p>
-	</div>
-	""")
 
 def printAbout():
 	print("""
@@ -355,22 +376,6 @@ def printAbout():
 				<a href = "http://www.bu.edu/segrelab/comets/">COMETS Segre Lab at Boston University</a>
 				</p>
 			</div>
-		<style>
-			.footer {
-				position: fixed;
-				left: 0;
-				bottom: 0;
-				width: 100%;
-				background-color: red;
-				color: white;
-				text-align: center;
-			}
-			</style>
-		<div class="footer">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
-		<img src="">
-		<p></p>
-		</div>
 	    </div>""")
 
 def printHelp():
@@ -422,23 +427,12 @@ def printHelp():
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="footer">
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+				</div>
+			</div>
 		</body>
-	<style>
-		.footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			background-color: red;
-			color: white;
-			text-align: center;
-		}
-	</style>
-	<div class="footer">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
-		<img src="">
-		<p></p>
-	</div>
 		</html>""")
 
 def submit_MODEL(model,media):
