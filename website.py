@@ -504,7 +504,7 @@ def printHelp():
 			</div>
 			<div class="row">
 				<div class="footer">
-					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
+					<a href = "http://www.bu.edu/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379 ismap></a>
 				</div>
 			</div>
 		</body>
