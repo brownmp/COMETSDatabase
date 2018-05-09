@@ -350,11 +350,6 @@ def printVisualizations():
 					<p id = "message"></p>
 				""")
 	file = form.getvalue("file_upload")
-<<<<<<< HEAD
-	#uploaded_file = form["file_upload"]
-=======
-			#uploaded_file = form["file_upload"]
->>>>>>> 7972276f44258bb8f70ecf2d6a237782978a5f55
 	if file:
 		read = pandas.read_table(form["file_upload"].file, index_col = 0, sep=("\t"))
 		print(loadFile(read))
