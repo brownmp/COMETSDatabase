@@ -18,6 +18,7 @@ print("Content-Type:text/html\n")
 #get the form
 form = cgi.FieldStorage()
 modelStatistics = form.getvalue("modelStatistics")
+upload = form.getvalue("upload")
 #model = form.getvalue("model")
 #media = form.getvalue("media")
 
@@ -323,26 +324,28 @@ def printAdvanced():
 def printVisualizations():
 	print("""
 		<div id="visualizations" class="tab-pane" role="tabpanel" aria-labelledby="visualizations-tab">
-					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/testpage.py" method="POST" enctype="multipart/form-data">
+					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST" enctype="multipart/form-data">
 					<div class="row" style="padding-top: 15px;">
 						<h2>Visualizations</h2>
 
-							<div class = "row">
+						
 								<div class="form-group">
-									<h4>Upload </h4>
+
+									<h4>Upload the total_biomass.txt</h4>
 								
 									<input type="file" name = "file_upload" size=1000 accept=".txt">
 									<input type = "submit" value = "Submit">
 								</div>
-							</div>
+							
 						</div>	
 					</form>
+					<p id = "message"></p>
 				""")
-			file = form.getvalue("file_upload")
+	file = form.getvalue("file_upload")
 			#uploaded_file = form["file_upload"]
-			if file:
-				read = pandas.read_table(form["file_upload"].file, index_col = 0, sep=("\t"))
-				print(loadFile(read))
+	if file:
+		read = pandas.read_table(form["file_upload"].file, index_col = 0, sep=("\t"))
+		print(loadFile(read))
 
 	print("""
 		</div>
@@ -429,45 +432,15 @@ def printHelp():
 			<div id="help" class="tab-pane" role="tabpanel" aria-labelledby="help-tab">
 			    <div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
-						<div class="col-md-6">
-							<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
-								<div class="col-10">
-									<h2>Select Model and Media</h2>
+						<div class = "col-6">
 
-									<div class="form-group">
-
-									    <label for="model">Model</label>
-
-									    
-
-									    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
-
-									    <div style="padding-top: 20px;">
-									    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
-									    	<input type="button" class="btn btn-secondary" value="Clear Models" onClick="window.location.reload()">
-									    </div>
-
-									    <br>
-
-									    <label for="media">Media</label>
-
-									    <select class="form-control">
-									    	<option value="">Choose Media</option>
-											<option value="Basal">Basal</option>
-											<option value="M9">M9</option>
-										</select>
-									</div>
-									<input type="submit" class="btn btn-success" value="Submit" >
-								</div>
-								<div class="col-2">
-								</div>
-							</form>
-						</div>
-						<div class="col-md-6">
+							<p>Basic 1:
+In the basic search, the user will choose the model species and media desired. The user can input more than one model species and only one media.  After typing a model, click Add Model.  The model selected will move to the right side of the page underneath the section Selected Models.  If the user wants to choose more than one model, the previous model must be moved to the Selected Models section first. If the user does not like the models chosen prior to submitting, then the user can press the Clear Models button to start over.  Additionally, the user can click View All Models to scan all of the models within the database.
+</p>
+						
 							<div class="row" style="padding-top: 15px;">
 								<h2>Results Visualizations</h2>
 							</div>""")
-	graph()
 	print("""
 						</div>
 					</div>
