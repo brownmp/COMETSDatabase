@@ -440,7 +440,7 @@ def printHelp():
 			    <div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
 						<div class = "col-6">
-							<h3>Basic:</h3>
+							<h3>Basic</h3>
 								<p>In the basic search, the user will choose the model species and media desired. 
 								The user can input more than one model species and only one media.  After typing 
 								a model, click Add Model.  The model selected will move to the right side of the page 
@@ -454,7 +454,7 @@ def printHelp():
 								The layout file will be moved to a new screen. The user can save the page for later use. Below is 
 								a partial image of a generated layout file. 
 								</p>
-							<h3>Advanced:</h3>
+							<h3>Advanced</h3>
 								<p>The advanced search is used if the user would like to determine what model species are contain any 
 								desired reactions, metabolites, and or media.  Similarly with the basic search, the user will input 
 								any reactions the user chooses and press the \"Add Reactions\" button. This will be repeated for 
