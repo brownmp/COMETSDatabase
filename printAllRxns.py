@@ -23,10 +23,10 @@ print("""
 			<div class="col-md-6">
 			</div>
 			<div class="col-md-6">
-				<h2>All Models:</h2>
+				<h2>All Reactions:</h2>
 				<ul id="allModels" class="list-group">""")
 
-with open("modelList.txt") as f:
+with open("rxnList.txt") as f:
 	for line in f:
 		print('<li class="list-group-item">' + line + '</li>')
 
