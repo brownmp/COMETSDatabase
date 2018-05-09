@@ -54,6 +54,40 @@ def printHead():
 					},
 				});
 			})
+			$(function() {
+				var input = document.getElementById("reactions");
+				
+				$( "#reactions" ).autocomplete({
+					source: function(request, response) {
+						$.ajax({
+							type: "POST",
+							url: "autocompleteRXNS.py",
+							data: JSON.stringify({'input' : input.value}),
+							datatype: "application/json",
+							success: function(data) {
+								response(data)
+							}
+						});
+					},
+				});
+			})
+			$(function() {
+				var input = document.getElementById("metabolites");
+				
+				$( "#metabolites" ).autocomplete({
+					source: function(request, response) {
+						$.ajax({
+							type: "POST",
+							url: "autocompleteMets.py",
+							data: JSON.stringify({'input' : input.value}),
+							datatype: "application/json",
+							success: function(data) {
+								response(data)
+							}
+						});
+					},
+				});
+			})
 		</script>
 
 		<script>
@@ -226,13 +260,11 @@ def printAdvanced():
 					<div class="row flex-row">
 						<div class="col-md-6">
 							<div class="col-10">
-								<h2>Select Model and Media</h2>
-
 								<div class="form-group">
 
 								    <label for="model">Reactions</label>
 
-								    <input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Models" value="">
+								    <input id="reactions" class="form-control" type="text" name="reactions" placeholder="Choose Reactions" value="">
 
 								    <input type="hidden" id="rxns" name="rxns" value="">
 
