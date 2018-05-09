@@ -325,18 +325,19 @@ def printVisualizations():
 	print("""
 		<div id="visualizations" class="tab-pane" role="tabpanel" aria-labelledby="visualizations-tab">
 					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST" enctype="multipart/form-data">
-					<div class="row" style="padding-top: 15px;">
-						<h2>Visualizations</h2>
+						<div class="row" style="padding-top: 15px;">
+							<div class = "col-6">
+								<h2>Visualizations</h2>
+										<br>
+										<br>
+										<div class="form-group">
 
-						
-								<div class="form-group">
-
-									<h4>Upload the total_biomass.txt</h4>
-								
-									<input type="file" name = "file_upload" size=1000 accept=".txt">
-									<input type = "submit" value = "Submit">
-								</div>
-							
+											<h4>Upload the total_biomass.txt</h4>
+										
+											<input type="file" name = "file_upload" size=1000 accept=".txt">
+											<input type = "submit" value = "Submit">
+										</div>
+							</div>	
 						</div>	
 					</form>
 					<p id = "message"></p>
