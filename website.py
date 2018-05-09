@@ -325,19 +325,18 @@ def printVisualizations():
 	print("""
 		<div id="visualizations" class="tab-pane" role="tabpanel" aria-labelledby="visualizations-tab">
 					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST" enctype="multipart/form-data">
-						<div class="row" style="padding-top: 15px;">
-							<div class = "col-6">
-								<h2>Visualizations</h2>
-										<br>
-										<br>
-										<div class="form-group">
+					<div class="row" style="padding-top: 15px;">
+						<h2>Visualizations</h2>
 
-											<h4>Upload the total_biomass.txt</h4>
-										
-											<input type="file" name = "file_upload" size=1000 accept=".txt">
-											<input type = "submit" value = "Submit">
-										</div>
-							</div>	
+						
+								<div class="form-group">
+
+									<h4>Upload the total_biomass.txt</h4>
+								
+									<input type="file" name = "file_upload" size=1000 accept=".txt">
+									<input type = "submit" value = "Submit">
+								</div>
+							
 						</div>	
 					</form>
 					<p id = "message"></p>
@@ -426,6 +425,11 @@ def printAbout():
 				<a href = "http://www.bu.edu/segrelab/comets/">COMETS Segre Lab at Boston University</a>
 				</p>
 			</div>
+			<div class = "row">
+				<p>
+				<a href = "http://komodo.modelseed.org/">Media Recipes</a>
+				</p>
+			</div>
 	    </div>""")
 
 def printHelp():
@@ -489,7 +493,7 @@ def printHelp():
 			</div>
 			<div class="row">
 				<div class="footer">
-					<a href="http://www.bu.edu/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379 ismap><a>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Boston_University_wordmark.svg/1280px-Boston_University_wordmark.svg.png" width=160 hight=72.379>
 				</div>
 			</div>
 		</body>
@@ -644,7 +648,8 @@ def loadFile(total_biomass):
 
 	# plot the rate of growth
 	rate = np.gradient(np.asarray(y)) # get the rate 
-	bx.set(xlabel="Time (t)", ylabel='Biomass f\'(t)', title='Growth Rate')
+	bx.set(xlabel="Time (t)", ylabel='Biomass f\'(t)',
+		title='Growth Rate')
 	bx.grid()
 	bx.plot(x,rate)
 	plt.subplots_adjust(hspace=.5, wspace=1 )
