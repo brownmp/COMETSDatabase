@@ -256,7 +256,7 @@ def printAdvanced():
 		    <div class="row" style="padding-top: 15px;">
 				<h2>Advanced Search</h2>
 			</div>
-			<form id="myForm" name="myForm" action="AdvancedLayoutGeneration.py" method="POST" enctype="multipart/form-data">
+			<form id="advForm" name="advForm" action="AdvancedLayoutGeneration.py" method="POST" enctype="multipart/form-data">
 		    	<div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
 						<div class="col-md-6">
@@ -297,9 +297,9 @@ def printAdvanced():
 
 								    <br>
 
-								    <label for="media">Media</label>
+								    <label for="advancedMedia">Media</label>
 
-								    <select id="media" name="media" class="form-control" form="myForm">
+								    <select id="advancedMedia" name="advancedMedia" class="form-control" form="advForm">
 								    	<option value="">Choose Media</option>
 										<option value="Basal">Basal</option>
 										<option value="M9">M9</option>
