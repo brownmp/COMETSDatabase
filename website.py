@@ -270,8 +270,12 @@ def printAdvanced():
 								    <input type="hidden" id="rxns" name="rxns" value="">
 
 								    <div style="padding-top: 20px;">
-								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Reactions" onclick="addRxn()">
+								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Reaction" onclick="addRxn()">
 								    	<input type="button" class="btn btn-secondary" value="Clear Selected" onClick="window.location.reload()">
+								    </div>
+
+								    <div style="padding-top: 10px;">
+								    	<a href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/printAllRxns.py" class="btn btn-secondary" target="_blank">View All Reactions</a>
 								    </div>
 
 								    <br>
@@ -283,8 +287,12 @@ def printAdvanced():
 								    <input type="hidden" id="mets" name="mets" value="">
 
 								    <div style="padding-top: 20px;">
-								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Reactions" onclick="addMet()">
+								    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Metabolite" onclick="addMet()">
 								    	<input type="button" class="btn btn-secondary" value="Clear Selected" onClick="window.location.reload()">
+								    </div>
+
+								    <div style="padding-top: 10px;">
+								    	<a href="https://bioed.bu.edu/cgi-bin/students_18/GroupB/printAllMets.py" class="btn btn-secondary" target="_blank">View All Metabolites</a>
 								    </div>
 
 								    <br>
@@ -343,7 +351,6 @@ def printVisualizations():
 					<p id = "message"></p>
 				""")
 	file = form.getvalue("file_upload")
-			#uploaded_file = form["file_upload"]
 	if file:
 		read = pandas.read_table(form["file_upload"].file, index_col = 0, sep=("\t"))
 		print(loadFile(read))
