@@ -18,6 +18,7 @@ print("Content-Type:text/html\n")
 #get the form
 form = cgi.FieldStorage()
 modelStatistics = form.getvalue("modelStatistics")
+upload = form.getvalue("upload")
 #model = form.getvalue("model")
 #media = form.getvalue("media")
 
@@ -331,23 +332,29 @@ def printAdvanced():
 def printVisualizations():
 	print("""
 		<div id="visualizations" class="tab-pane" role="tabpanel" aria-labelledby="visualizations-tab">
-					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/testpage.py" method="POST" enctype="multipart/form-data">
+					<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/website.py" method="POST" enctype="multipart/form-data">
 					<div class="row" style="padding-top: 15px;">
 						<h2>Visualizations</h2>
 
-							<div class = "row">
+						
 								<div class="form-group">
-									<h4>Upload </h4>
+
+									<h4>Upload the total_biomass.txt</h4>
 								
 									<input type="file" name = "file_upload" size=1000 accept=".txt">
 									<input type = "submit" value = "Submit">
 								</div>
-							</div>
+							
 						</div>	
 					</form>
+					<p id = "message"></p>
 				""")
 	file = form.getvalue("file_upload")
+<<<<<<< HEAD
 	#uploaded_file = form["file_upload"]
+=======
+			#uploaded_file = form["file_upload"]
+>>>>>>> 7972276f44258bb8f70ecf2d6a237782978a5f55
 	if file:
 		read = pandas.read_table(form["file_upload"].file, index_col = 0, sep=("\t"))
 		print(loadFile(read))
@@ -442,45 +449,55 @@ def printHelp():
 			<div id="help" class="tab-pane" role="tabpanel" aria-labelledby="help-tab">
 			    <div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
-						<div class="col-md-6">
-							<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_18/GroupB/Homepage.py" method="POST">
-								<div class="col-10">
-									<h2>Select Model and Media</h2>
-
-									<div class="form-group">
-
-									    <label for="model">Model</label>
-
-									    
-
-									    <input id="model" class="form-control" type="text" name="model" placeholder="Choose Models">
-
-									    <div style="padding-top: 20px;">
-									    	<input type="button" class="btn btn-secondary" id="btnAdd" value="Add Model" onclick="addItem()">
-									    	<input type="button" class="btn btn-secondary" value="Clear Models" onClick="window.location.reload()">
-									    </div>
-
-									    <br>
-
-									    <label for="media">Media</label>
-
-									    <select class="form-control">
-									    	<option value="">Choose Media</option>
-											<option value="Basal">Basal</option>
-											<option value="M9">M9</option>
-										</select>
-									</div>
-									<input type="submit" class="btn btn-success" value="Submit" >
-								</div>
-								<div class="col-2">
-								</div>
-							</form>
+						<div class = "col-6">
+							<h3>Basic:</h3>
+								<p>In the basic search, the user will choose the model species and media desired. 
+								The user can input more than one model species and only one media.  After typing 
+								a model, click Add Model.  The model selected will move to the right side of the page 
+								underneath the section Selected Models.  If the user wants to choose more than one model, 
+								the previous model must be moved to the Selected Models section first. If the user 
+								does not like the models chosen prior to submitting, then the user can press the Clear 
+								Models button to start over.  Additionally, the user can click View All Models to scan 
+								all of the models within the database. 
+								Next, the user will input one media: either Basal or M9.
+								After model species and media are chosen, the user will click submit to generate a layout file. 
+								The layout file will be moved to a new screen. The user can save the page for later use. Below is 
+								a partial image of a generated layout file. 
+								</p>
+							<h3>Advanced:</h3>
+								<p>The advanced search is used if the user would like to determine what model species are contain any 
+								desired reactions, metabolites, and or media.  Similarly with the basic search, the user will input 
+								any reactions the user chooses and press the \"Add Reactions\" button. This will be repeated for 
+								metabolites. A media will be chosen as well.  The user will then press submit and the user will be 
+								shown what model species satisfy those conditions. The model species can then be chosen in the basic 
+								search. 
+								</p>
+							<h3>Visualization: Load Data</h3>
+								<p> 
+								After COMETS runs a simulation, files are returned to the user including a total_bimass.txt text file. 
+								This file can be uploaded to the website via the visualization tab. When the upload button is selected, 
+								the website will prompt the user to select the total_biomass.txt file from the user\'s computer. After 
+								submitting the text file, two graphs will print to the screen below the input button. The first graph 
+								shows the change in biomass over time. If multiple colonies of the same species are present, the graph 
+								plots the average biomass over time.The second graph Shows the rate change of biomass over time.
+								</p>
+							<h3>Statistics</h3>
+								<p>The statistics tab provides simple statistics about the database or a particular model. At the top of 
+								the page are simple explanatory statistics about the the database as a whole. This table shows the amount 
+								of Models, Metabolites, Reactions, Medias, Kegg IDs, Pubchem IDs, International Chemical Identifier (inchi) 
+								in the database. The second portion of the page is a section where the user can look up a specific model 
+								and see the number of Reactions, and internal and external metabolites associated with it. The third portion
+								of the tab is summary statistics about the the distribution of properties in the database. 
+								</p>
 						</div>
-						<div class="col-md-6">
-							<div class="row" style="padding-top: 15px;">
-								<h2>Results Visualizations</h2>
-							</div>""")
-	graph()
+						<div class = "col-6">
+							<img src="https://bioed.bu.edu/images/students_18/GroupB/image1.png" class = "img-fluid"/>
+							<img src="https://bioed.bu.edu/images/students_18/GroupB/image2.png" class = "img-fluid"/>
+							<img src="https://bioed.bu.edu/images/students_18/GroupB/image4.png" class = "img-fluid"/>
+							<img src="https://bioed.bu.edu/images/students_18/GroupB/image3.png" class = "img-fluid"/>
+						</div>
+
+						""")
 	print("""
 						</div>
 					</div>
