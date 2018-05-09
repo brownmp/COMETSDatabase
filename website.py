@@ -683,7 +683,7 @@ def loadFile(total_biomass):
 	plt.subplots_adjust(hspace=.5, wspace=1 )
 	
 	#print(fig) # figure dimensions 
-	print(mpld3.fig_to_html(fig))
+	return mpld3.fig_to_html(fig)
 
 #query = submit_MODEL(model,media)
 #print(execute_query(query))
