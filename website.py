@@ -202,7 +202,7 @@ def printHomepage():
 def printBasic():
 	print("""
 		<div id="basic" class="tab-pane active" role="tabpanel" aria-labelledby="basic-tab">
-		    <form id="myForm" name="myForm" action="LayoutGeneration.py" method="POST" enctype="multipart/form-data">
+		    <form id="myForm" name="myForm" action="LayoutGeneration.py" method="POST" enctype="multipart/form-data" target="_blank">
 		    	<div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
 						<div class="col-md-6">
@@ -256,7 +256,7 @@ def printAdvanced():
 		    <div class="row" style="padding-top: 15px;">
 				<h2>Advanced Search</h2>
 			</div>
-			<form id="advForm" name="advForm" action="AdvancedLayoutGeneration.py" method="POST" enctype="multipart/form-data">
+			<form id="advForm" name="advForm" action="AdvancedLayoutGeneration.py" method="POST" enctype="multipart/form-data" target="_blank">
 		    	<div class="container-fluid" style="padding-top: 15px;">
 					<div class="row flex-row">
 						<div class="col-md-6">
